@@ -42,10 +42,30 @@ public class MovieController {
         return ResponseEntity.ok(movieService.getMovieById(id));
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity getAlLMovies(){
 
+        if(movieService.findAllMovies().isEmpty())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No movie found.");
         return ResponseEntity.ok(movieService.findAllMovies());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteMovieById(@PathVariable String id){
+
+        if(id.isEmpty())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID field is empty.");
+
+        movieService.removeMovieById(id);
+
+        return ResponseEntity.ok("Movie deleted successfully.");
+    }
+
+
+    @DeleteMapping
+    public ResponseEntity deleteAllMovies(){
+        movieService.removeAllMovies();
+        return ResponseEntity.ok("All movies was removed successfully");
     }
 
 }

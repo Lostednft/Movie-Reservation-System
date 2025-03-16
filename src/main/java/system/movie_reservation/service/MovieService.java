@@ -36,9 +36,18 @@ public class MovieService {
     }
 
     public List<Movie> findAllMovies() {
-
-        if(movieRepository.findAll().isEmpty())
-            throw new RuntimeException("None movie found.");
         return movieRepository.findAll();
+    }
+
+    public void removeMovieById(String id){
+
+        Movie movie = getMovieById(id);
+        if(movie != null)
+            movieRepository.delete(movie);
+    }
+
+
+    public void removeAllMovies(){
+        movieRepository.deleteAll();
     }
 }
