@@ -5,6 +5,8 @@ import system.movie_reservation.model.Movie;
 import system.movie_reservation.model.dto.MovieRequest;
 import system.movie_reservation.repository.MovieRepository;
 
+import java.util.List;
+
 
 @Service
 public class MovieService {
@@ -31,5 +33,12 @@ public class MovieService {
 
         Movie movieToUpdate = new Movie(movie);
         return movieRepository.save(movieToUpdate);
+    }
+
+    public List<Movie> findAllMovies() {
+
+        if(movieRepository.findAll().isEmpty())
+            throw new RuntimeException("None movie found.");
+        return movieRepository.findAll();
     }
 }
