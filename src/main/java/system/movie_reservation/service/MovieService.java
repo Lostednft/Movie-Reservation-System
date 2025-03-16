@@ -12,10 +12,7 @@ public class MovieService {
     private final MovieRepository movieRepository;
 
     public Movie getMovieById(String id){
-
-        Movie movieFound = movieRepository.findById(id).orElseThrow(() -> new RuntimeException("No movie found with this id!"));
-
-        return movieFound;
+        return movieRepository.findById(id).orElseThrow(() -> new RuntimeException("No movie found with this id!"));
     }
 
     public MovieService(MovieRepository movieRepository) {
@@ -28,5 +25,11 @@ public class MovieService {
         movieRepository.save(movie);
 
         return movie;
+    }
+
+    public Movie updateMovie(MovieRequest movie){
+
+        Movie movieToUpdate = new Movie(movie);
+        return movieRepository.save(movieToUpdate);
     }
 }

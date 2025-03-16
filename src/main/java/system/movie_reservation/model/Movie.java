@@ -29,7 +29,7 @@ public class Movie {
     private String description;
 
     @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    private List<Category> category;
+    private List<Category> categories;
 
     @Column(nullable = false)
     private String posterUrl;
@@ -37,12 +37,11 @@ public class Movie {
     @Column(nullable = false)
     private String duration;
 
-
     public Movie(MovieRequest movieRequest) {
         this.id = movieRequest.id();
         this.name = movieRequest.name();
         this.description = movieRequest.description();
-        this.category = movieRequest.categories().stream().map(Category.CategoryLoad::toCategory).toList();
+        this.categories = movieRequest.categories().stream().map(Category.CategoryLoad::toCategory).toList();
         this.posterUrl = movieRequest.posterUrl();
         this.duration = movieRequest.duration();
     }
