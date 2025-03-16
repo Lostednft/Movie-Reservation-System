@@ -6,6 +6,7 @@ import java.util.List;
 
 public record MovieRequest(String id,
                            String name,
+                           Long releaseDate,
                            String description,
                            List<Category.CategoryLoad> categories,
                            String posterUrl,

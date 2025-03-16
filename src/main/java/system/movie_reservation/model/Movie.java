@@ -26,6 +26,9 @@ public class Movie {
     private String name;
 
     @Column(nullable = false)
+    private Long releaseDate;
+
+    @Column(nullable = false)
     private String description;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
@@ -40,6 +43,7 @@ public class Movie {
     public Movie(MovieRequest movieRequest) {
         this.id = movieRequest.id();
         this.name = movieRequest.name();
+        this.releaseDate = movieRequest.releaseDate();
         this.description = movieRequest.description();
         this.categories = movieRequest.categories().stream().map(Category.CategoryLoad::toCategory).toList();
         this.posterUrl = movieRequest.posterUrl();
