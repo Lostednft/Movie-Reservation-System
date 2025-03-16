@@ -28,7 +28,7 @@ public class Movie {
     @Column(nullable = false)
     private String description;
 
-    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<Category> categories;
 
     @Column(nullable = false)
