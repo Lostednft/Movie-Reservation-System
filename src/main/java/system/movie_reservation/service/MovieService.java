@@ -32,7 +32,7 @@ public class MovieService {
     }
 
     public Movie updateMovie(MovieRequest movie){
-
+        ValidateException.checkFieldsEmpty(movie);
         Movie movieToUpdate = new Movie(movie);
         return movieRepository.save(movieToUpdate);
     }
@@ -42,7 +42,6 @@ public class MovieService {
     }
 
     public void removeMovieById(String id){
-
         Movie movie = getMovieById(id);
         if(movie != null)
             movieRepository.delete(movie);

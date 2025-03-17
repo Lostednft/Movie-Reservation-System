@@ -18,7 +18,6 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
         Arrays.stream(Category.CategoryLoad.values())
                 .map(Category.CategoryLoad::toCategory)
                 .forEach(categoryService::save);

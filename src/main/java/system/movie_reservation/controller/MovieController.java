@@ -19,25 +19,21 @@ public class MovieController {
 
     @PostMapping("/create")
     public ResponseEntity createMovie(@Valid @RequestBody MovieRequest movie){
-
         return ResponseEntity.ok(movieService.createMovie(movie));
     }
 
     @PutMapping("/update")
     public ResponseEntity updateMovie(@RequestBody MovieRequest movieRequest){
-
         return ResponseEntity.status(HttpStatus.OK).body(movieService.updateMovie(movieRequest));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getMovieById(@PathVariable String id){
-
         return ResponseEntity.ok(movieService.getMovieById(id));
     }
 
     @GetMapping
     public ResponseEntity getAlLMovies(){
-
         if(movieService.findAllMovies().isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No movie found.");
         return ResponseEntity.ok(movieService.findAllMovies());
@@ -45,20 +41,15 @@ public class MovieController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteMovieById(@PathVariable String id){
-
         if(id.isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID field is empty.");
-
         movieService.removeMovieById(id);
-
         return ResponseEntity.ok("Movie deleted successfully.");
     }
-
 
     @DeleteMapping
     public ResponseEntity deleteAllMovies(){
         movieService.removeAllMovies();
         return ResponseEntity.ok("All movies was removed successfully");
     }
-
 }
