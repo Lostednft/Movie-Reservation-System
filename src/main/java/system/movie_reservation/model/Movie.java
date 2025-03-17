@@ -41,7 +41,6 @@ public class Movie {
     private String duration;
 
     public Movie(MovieRequest movieRequest) {
-        this.id = movieRequest.id();
         this.name = movieRequest.name();
         this.releaseDate = movieRequest.releaseDate();
         this.description = movieRequest.description();

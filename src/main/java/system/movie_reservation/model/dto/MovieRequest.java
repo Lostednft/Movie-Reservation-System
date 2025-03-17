@@ -4,8 +4,7 @@ import system.movie_reservation.model.Enums.Category;
 
 import java.util.List;
 
-public record MovieRequest(String id,
-                           String name,
+public record MovieRequest(String name,
                            Long releaseDate,
                            String description,
                            List<Category.CategoryLoad> categories,
