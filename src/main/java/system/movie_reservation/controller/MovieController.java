@@ -1,6 +1,6 @@
 package system.movie_reservation.controller;
 
-import org.apache.coyote.Response;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +18,7 @@ public class MovieController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity createMovie(@RequestBody MovieRequest movie){
-
-        if(movie.categories().isEmpty()||
-        movie.name() == null ||
-        movie.duration() == null ||
-        movie.posterUrl() == null ||
-        movie.description() == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Algum campo esta nulo");
+    public ResponseEntity createMovie(@Valid @RequestBody MovieRequest movie){
 
         return ResponseEntity.ok(movieService.createMovie(movie));
     }
