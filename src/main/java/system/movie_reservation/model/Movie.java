@@ -22,22 +22,17 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false)
     private Long releaseDate;
 
-    @Column(nullable = false)
     private String description;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<Category> categories;
 
-    @Column(nullable = false)
     private String posterUrl;
 
-    @Column(nullable = false)
     private String duration;
 
     public Movie(MovieRequest movieRequest) {

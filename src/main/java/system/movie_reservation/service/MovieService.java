@@ -35,6 +35,7 @@ public class MovieService {
         ValidateException.checkFieldsEmpty(movie);
         Movie movieToUpdate = new Movie(movie);
         return movieRepository.save(movieToUpdate);
+
     }
 
     public List<Movie> findAllMovies() {

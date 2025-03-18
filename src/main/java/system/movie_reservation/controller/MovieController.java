@@ -35,16 +35,14 @@ public class MovieController {
     @GetMapping
     public ResponseEntity getAlLMovies(){
         if(movieService.findAllMovies().isEmpty())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No movie found.");
+            return ResponseEntity.status(HttpStatus.OK).body("No movie registered.");
         return ResponseEntity.ok(movieService.findAllMovies());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteMovieById(@PathVariable String id){
-        if(id.isEmpty())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID field is empty.");
         movieService.removeMovieById(id);
-        return ResponseEntity.ok("Movie deleted successfully.");
+        return ResponseEntity.ok().body("Movie deleted successfully.");
     }
 
     @DeleteMapping
