@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import system.movie_reservation.model.User;
+import system.movie_reservation.model.dto.UserDto;
 import system.movie_reservation.service.UserService;
 
 @RestController
-@RequestMapping("login")
+@RequestMapping("auth")
 public class UserController {
 
     private final UserService userService;
@@ -20,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity saveUser(@RequestBody User user){
+    public ResponseEntity saveUser(@RequestBody UserDto user){
         return ResponseEntity.ok(userService.createUser(user));
     }
 }
