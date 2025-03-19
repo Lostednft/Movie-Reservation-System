@@ -19,13 +19,15 @@ public class DataLoader implements CommandLineRunner {
     private final CategoryRepository categoryService;
     private final SeatRepository seatRepository;
     private final MovieTimeRepository movieTimeRepository;
+    private final MovieRepository movieRepository;
 
     public DataLoader(CategoryRepository categoryService,
                       SeatRepository seatRepository,
-                      MovieTimeRepository movieTimeRepository) {
+                      MovieTimeRepository movieTimeRepository, MovieRepository movieRepository) {
         this.categoryService = categoryService;
         this.seatRepository = seatRepository;
         this.movieTimeRepository = movieTimeRepository;
+        this.movieRepository = movieRepository;
     }
 
     @Override

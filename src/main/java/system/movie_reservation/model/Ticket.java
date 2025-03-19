@@ -33,6 +33,9 @@ public class Ticket {
 
     private List<String> seat;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Seat roomSeats;
+
     public Ticket(User user, Movie movie, TicketDto ticketDto) {
         this.user = user;
         this.movie = movie;

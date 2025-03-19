@@ -8,7 +8,6 @@ import lombok.Setter;
 import system.movie_reservation.model.Enums.Category;
 import system.movie_reservation.model.dto.MovieRequest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
