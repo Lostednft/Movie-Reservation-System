@@ -9,7 +9,6 @@ import system.movie_reservation.model.Enums.MovieTime;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "seats_tb")

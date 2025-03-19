@@ -31,9 +31,6 @@ public class Movie {
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<Category> categories;
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Ticket> tickets = new ArrayList<>();
-
     public Movie(MovieRequest movieRequest) {
         this.name = movieRequest.name();
         this.releaseDate = movieRequest.releaseDate();
