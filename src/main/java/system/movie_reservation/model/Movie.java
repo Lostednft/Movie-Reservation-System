@@ -8,10 +8,11 @@ import lombok.Setter;
 import system.movie_reservation.model.Enums.Category;
 import system.movie_reservation.model.dto.MovieRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "movie_tb")
-@Table
+@Entity
+@Table(name = "movie_tb")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,19 +22,17 @@ public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-
     private String name;
-
     private Long releaseDate;
-
     private String description;
+    private String posterUrl;
+    private String duration;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<Category> categories;
 
-    private String posterUrl;
-
-    private String duration;
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Ticket> tickets = new ArrayList<>();
 
     public Movie(MovieRequest movieRequest) {
         this.name = movieRequest.name();
