@@ -11,10 +11,8 @@ import system.movie_reservation.model.dto.MovieResponse;
 import system.movie_reservation.repository.MovieRepository;
 import system.movie_reservation.repository.SeatRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-
 
 @Service
 public class MovieService {
