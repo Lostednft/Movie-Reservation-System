@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.aspectj.weaver.bcel.BcelCflowStackFieldAdder;
 import system.movie_reservation.model.Enums.MovieTime;
 
 import java.util.HashMap;
@@ -23,7 +22,7 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Movie movie;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
@@ -32,13 +31,11 @@ public class Seat {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Map<String, Ticket> ticketsAvailable = new HashMap<>();
 
-
     public Seat(Movie movie, MovieTime movieTime) {
         this.movie = movie;
         this.movieTime = movieTime;
         this.ticketsAvailable = constructorSeats();
     }
-
 
     private Map<String, Ticket> constructorSeats(){
 
