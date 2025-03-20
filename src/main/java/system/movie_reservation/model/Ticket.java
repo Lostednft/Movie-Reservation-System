@@ -40,6 +40,5 @@ public class Ticket {
         this.user = user;
         this.movie = movie;
         this.movieTime = ticketDto.movieTime().toMovieTime();
-        this.seat = ticketDto.seat();
     }
 }
