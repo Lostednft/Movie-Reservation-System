@@ -27,6 +27,9 @@ public class Movie {
     private String posterUrl;
     private String duration;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Seat> rooms;
+
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<Category> categories;
 
