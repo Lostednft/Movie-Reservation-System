@@ -1,11 +1,17 @@
 package system.movie_reservation.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import system.movie_reservation.exception.ValidateException;
+import system.movie_reservation.model.Enums.MovieTime;
 import system.movie_reservation.model.Movie;
+import system.movie_reservation.model.Seat;
 import system.movie_reservation.model.dto.MovieRequest;
+import system.movie_reservation.model.dto.MovieResponse;
 import system.movie_reservation.repository.MovieRepository;
+import system.movie_reservation.repository.SeatRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -14,9 +20,12 @@ import java.util.NoSuchElementException;
 public class MovieService {
 
     private final MovieRepository movieRepository;
+    private final SeatRepository seatRepository;
 
-    public MovieService(MovieRepository movieRepository) {
+    public MovieService(MovieRepository movieRepository,
+                        SeatRepository seatRepository) {
         this.movieRepository = movieRepository;
+        this.seatRepository = seatRepository;
     }
 
     public Movie getMovieById(String id){
@@ -24,18 +33,19 @@ public class MovieService {
                 new NoSuchElementException("No movie with this ID was found."));
     }
 
-    public Movie createMovie(MovieRequest movieRequest){
+    @Transactional
+    public MovieResponse createMovie(MovieRequest movieRequest){
         ValidateException.checkFieldsEmpty(movieRequest);
         Movie movie = new Movie(movieRequest);
+        movie.setRooms(createAutoRooms(movie));
         movieRepository.save(movie);
-        return movie;
+        return new MovieResponse(movie);
     }
 
     public Movie updateMovie(MovieRequest movie){
         ValidateException.checkFieldsEmpty(movie);
         Movie movieToUpdate = new Movie(movie);
         return movieRepository.save(movieToUpdate);
-
     }
 
     public List<Movie> findAllMovies() {
@@ -50,5 +60,15 @@ public class MovieService {
 
     public void removeAllMovies(){
         movieRepository.deleteAll();
+    }
+
+    private List<Seat> createAutoRooms(Movie movie){
+        List<Seat> seatList = List.of(
+                new Seat(movie, MovieTime.MovieTimeLoad.TURN_01.toMovieTime()),
+                new Seat(movie, MovieTime.MovieTimeLoad.TURN_02.toMovieTime()),
+                new Seat(movie, MovieTime.MovieTimeLoad.TURN_03.toMovieTime()));
+
+        seatRepository.saveAll(seatList);
+        return seatList;
     }
 }
