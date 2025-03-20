@@ -37,7 +37,10 @@ public class Movie {
         this.name = movieRequest.name();
         this.releaseDate = movieRequest.releaseDate();
         this.description = movieRequest.description();
-        this.categories = movieRequest.categories().stream().map(Category.CategoryLoad::toCategory).toList();
+        this.categories = movieRequest.categories()
+                .stream()
+                .map(Category.CategoryLoad::toCategory)
+                .toList();
         this.posterUrl = movieRequest.posterUrl();
         this.duration = movieRequest.duration();
     }
