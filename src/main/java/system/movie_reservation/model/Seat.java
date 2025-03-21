@@ -28,8 +28,7 @@ public class Seat {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private MovieTime movieTime;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Map<String, Ticket> ticketsAvailable = new HashMap<>();
+    private Map<String, Integer> ticketsAvailable = new HashMap<>();
 
     public Seat(Movie movie, MovieTime movieTime) {
         this.movie = movie;
@@ -37,13 +36,13 @@ public class Seat {
         this.ticketsAvailable = constructorSeats();
     }
 
-    private Map<String, Ticket> constructorSeats(){
+    private Map<String, Integer> constructorSeats(){
 
         char queue = 'A';
 
         for (int i = 1; i <= 8; i++) {
             for (int j = 1; j <= 8; j++) {
-                ticketsAvailable.put("" + queue + 1, null);
+                ticketsAvailable.put("" + queue + j, null);
             }
             queue += 1;
         }

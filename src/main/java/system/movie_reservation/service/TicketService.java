@@ -37,8 +37,9 @@ public class TicketService {
                 movie,
                 ticketRequest.movieTime().toMovieTime());
         Ticket ticket = new Ticket(user, movie, ticketRequest);
-
         ticket.setRoomSeats(seat);
+
+        seatService.saveSeatWithTicketsUpdated(ticket);
         ticketRepository.save(ticket);
 
         return new TicketResponse(ticket);
