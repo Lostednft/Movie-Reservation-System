@@ -35,7 +35,8 @@ public class TicketService {
         Movie movie = movieService.getMovieById(ticketRequest.movieId());
         Seat seat = seatService.getSeatByMovieAndMovieTime(
                 movie,
-                ticketRequest.movieTime().toMovieTime());
+                ticketRequest.movieTime().toMovieTime()
+        );
         Ticket ticket = new Ticket(user, movie, ticketRequest);
         ticket.setRoomSeats(seat);
 

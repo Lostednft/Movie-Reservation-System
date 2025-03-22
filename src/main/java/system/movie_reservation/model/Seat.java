@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import system.movie_reservation.model.Enums.MovieTime;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "seats_tb")
@@ -20,32 +20,33 @@ public class Seat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Movie movie;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER)
     private MovieTime movieTime;
 
-    private Map<String, Integer> ticketsAvailable = new HashMap<>();
+    @OneToMany(mappedBy = "seat", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SeatTicket> seatTicket = new ArrayList<>();
 
     public Seat(Movie movie, MovieTime movieTime) {
         this.movie = movie;
         this.movieTime = movieTime;
-        this.ticketsAvailable = constructorSeats();
+        this.seatTicket = constructorSeats();
     }
 
-    private Map<String, Integer> constructorSeats(){
+    private List<SeatTicket> constructorSeats(){
 
         char queue = 'A';
 
         for (int i = 1; i <= 8; i++) {
             for (int j = 1; j <= 8; j++) {
-                ticketsAvailable.put("" + queue + j, null);
+                seatTicket.add(new SeatTicket("" + queue + j, null, this));
             }
-            queue += 1;
+        queue += 1;
         }
-        return ticketsAvailable;
+        return seatTicket;
     }
 }

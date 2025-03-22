@@ -4,10 +4,11 @@ import org.springframework.stereotype.Service;
 import system.movie_reservation.model.Enums.MovieTime;
 import system.movie_reservation.model.Movie;
 import system.movie_reservation.model.Seat;
+import system.movie_reservation.model.SeatTicket;
 import system.movie_reservation.model.Ticket;
 import system.movie_reservation.repository.SeatRepository;
 
-import java.util.Map;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -19,7 +20,7 @@ public class SeatService {
         this.seatRepository = seatRepository;
     }
 
-    public Seat getSeatById(Integer id){
+    public Seat getSeatById(Long id){
         return seatRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException("No Seat found with this ID."));
     }
@@ -32,13 +33,17 @@ public class SeatService {
     public void saveSeatWithTicketsUpdated(Ticket ticket){
 
         Seat roomSeats = ticket.getRoomSeats();
-        Map<String, Integer> ticketMap = roomSeats.getTicketsAvailable();
+        List<SeatTicket> seatTickets = roomSeats.getSeatTicket();
 
         for (String seat : ticket.getSeat()) {
-            ticketMap.replace(seat, ticket.getId());
+
+            seatTickets.stream().filter(n -> n.getSeatKey().equals(seat))
+                    .findFirst()
+                    .ifPresent(st -> st.setTicketValue(ticket));
         }
 
-        roomSeats.setTicketsAvailable(ticketMap);
+        roomSeats.setSeatTicket(seatTickets);
         seatRepository.save(roomSeats);
+
     }
 }
