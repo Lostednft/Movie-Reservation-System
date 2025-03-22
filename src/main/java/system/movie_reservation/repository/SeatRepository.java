@@ -9,7 +9,7 @@ import system.movie_reservation.model.Seat;
 import java.util.Optional;
 
 @Repository
-public interface SeatRepository extends JpaRepository<Seat, Integer> {
+public interface SeatRepository extends JpaRepository<Seat, Long> {
 
     Optional<Seat> findByMovieAndMovieTime(Movie movie, MovieTime movieTime);
 }

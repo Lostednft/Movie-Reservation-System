@@ -12,7 +12,7 @@ public record MovieResponse(String id,
                             String description,
                             String posterUrl,
                             String duration,
-                            List<Integer> rooms_id,
+                            List<Long> rooms_id,
                             List<String> categories) {
 
     public MovieResponse(Movie movie) {

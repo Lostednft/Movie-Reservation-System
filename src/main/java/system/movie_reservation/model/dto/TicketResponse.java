@@ -6,13 +6,13 @@ import system.movie_reservation.service.TicketService;
 import java.time.LocalTime;
 import java.util.List;
 
-public record TicketResponse(Integer id,
+public record TicketResponse(Long id,
                              String user_id,
                              String movie_id,
                              LocalTime movieTimeStart,
                              LocalTime movieTimeEnd,
                              List<String> seats,
-                             Integer room_id) {
+                             Long room_id) {
 
     public TicketResponse(Ticket ticket){
         this(
