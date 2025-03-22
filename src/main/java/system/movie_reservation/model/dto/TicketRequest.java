@@ -1,6 +1,6 @@
 package system.movie_reservation.model.dto;
 
-import system.movie_reservation.model.Enums.MovieTime;
+import system.movie_reservation.model.Enum.MovieTime;
 import java.util.List;
 
 public record TicketRequest(String userId,

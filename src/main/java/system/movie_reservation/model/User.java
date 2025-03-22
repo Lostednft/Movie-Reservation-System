@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import system.movie_reservation.model.Enums.UserRole;
+import system.movie_reservation.model.Enum.UserRole;
 import system.movie_reservation.model.dto.UserDto;
 
 import java.time.LocalDate;

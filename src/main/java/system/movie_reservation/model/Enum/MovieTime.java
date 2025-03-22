@@ -1,4 +1,4 @@
-package system.movie_reservation.model.Enums;
+package system.movie_reservation.model.Enum;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

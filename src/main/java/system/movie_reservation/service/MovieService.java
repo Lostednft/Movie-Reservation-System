@@ -3,7 +3,7 @@ package system.movie_reservation.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import system.movie_reservation.exception.ValidateException;
-import system.movie_reservation.model.Enums.MovieTime;
+import system.movie_reservation.model.Enum.MovieTime;
 import system.movie_reservation.model.Movie;
 import system.movie_reservation.model.Seat;
 import system.movie_reservation.model.dto.MovieRequest;

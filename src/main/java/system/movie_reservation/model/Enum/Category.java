@@ -1,4 +1,4 @@
-package system.movie_reservation.model.Enums;
+package system.movie_reservation.model.Enum;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,7 +19,6 @@ public class Category{
     @Id
     private Integer id;
     private String category;
-
 
     public enum CategoryLoad {
         DRAMA(1,"drama"),

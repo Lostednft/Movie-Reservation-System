@@ -1,6 +1,6 @@
 package system.movie_reservation.model.dto;
 
-import system.movie_reservation.model.Enums.Category;
+import system.movie_reservation.model.Enum.Category;
 import system.movie_reservation.model.Movie;
 import system.movie_reservation.model.Seat;
 
