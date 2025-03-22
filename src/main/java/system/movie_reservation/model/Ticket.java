@@ -20,7 +20,7 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
