@@ -28,9 +28,15 @@ public class Movie {
     private String duration;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinTable(name = "movie_rooms_tb",
+    joinColumns = @JoinColumn(name = "movie_id"),
+    inverseJoinColumns = @JoinColumn(name = "seat_id"))
     private List<Seat> rooms;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinTable(name = "movie_categories_tb",
+    joinColumns = @JoinColumn(name = "movie_id"),
+    inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
 
     public Movie(MovieRequest movieRequest) {
