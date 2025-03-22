@@ -16,29 +16,18 @@ import java.util.Arrays;
 @Component
 public class DataLoader implements CommandLineRunner {
 
-    private final CategoryRepository categoryService;
-    private final SeatRepository seatRepository;
-    private final MovieTimeRepository movieTimeRepository;
-    private final MovieRepository movieRepository;
+    private final CategoryLoader categoryLoader;
+    private final MovieTimeLoader movieTimeLoader;
 
-    public DataLoader(CategoryRepository categoryService,
-                      SeatRepository seatRepository,
-                      MovieTimeRepository movieTimeRepository, MovieRepository movieRepository) {
-        this.categoryService = categoryService;
-        this.seatRepository = seatRepository;
-        this.movieTimeRepository = movieTimeRepository;
-        this.movieRepository = movieRepository;
+    public DataLoader(CategoryLoader categoryLoader, MovieTimeLoader movieTimeLoader) {
+        this.categoryLoader = categoryLoader;
+        this.movieTimeLoader = movieTimeLoader;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        Arrays.stream(Category.CategoryLoad.values())
-                .map(Category.CategoryLoad::toCategory)
-                .forEach(categoryService::save);
 
-        Arrays.stream(MovieTime.MovieTimeLoad.values())
-                .map(MovieTime.MovieTimeLoad::toMovieTime)
-                .forEach(movieTimeRepository::save);
-
+        categoryLoader.saveAllCategories();
+        movieTimeLoader.saveAllMovietimes();
     }
 }
