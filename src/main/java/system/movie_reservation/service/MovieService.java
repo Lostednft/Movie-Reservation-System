@@ -6,11 +6,13 @@ import system.movie_reservation.exception.ValidateException;
 import system.movie_reservation.model.Enum.MovieTime;
 import system.movie_reservation.model.Movie;
 import system.movie_reservation.model.Seat;
-import system.movie_reservation.model.dto.MovieRequest;
-import system.movie_reservation.model.dto.MovieResponse;
+import system.movie_reservation.model.request.MovieRequest;
+import system.movie_reservation.model.request.ToUpdate.MovieRequestUpdate;
+import system.movie_reservation.model.response.MovieResponse;
 import system.movie_reservation.repository.MovieRepository;
 import system.movie_reservation.repository.SeatRepository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -33,21 +35,32 @@ public class MovieService {
 
     @Transactional
     public MovieResponse createMovie(MovieRequest movieRequest){
-        ValidateException.checkFieldsEmpty(movieRequest);
         Movie movie = new Movie(movieRequest);
+        ValidateException.checkFieldsEmpty(movie);
         movie.setRooms(createAutoRooms(movie));
         movieRepository.save(movie);
         return new MovieResponse(movie);
     }
 
-    public Movie updateMovie(MovieRequest movie){
-        ValidateException.checkFieldsEmpty(movie);
-        Movie movieToUpdate = new Movie(movie);
-        return movieRepository.save(movieToUpdate);
+    public MovieResponse updateMovie(MovieRequestUpdate movieReqUpdate){
+
+        Movie movieSavedDB = getMovieById(movieReqUpdate.id());
+        Movie movieUpdated = new Movie(movieReqUpdate);
+        movieUpdated.setRooms(movieSavedDB.getRooms());
+
+        ValidateException.checkFieldsEmpty(movieUpdated);
+
+        movieRepository.save(movieUpdated);
+        return new MovieResponse(movieUpdated);
     }
 
-    public List<Movie> findAllMovies() {
-        return movieRepository.findAll();
+
+    public List<MovieResponse> findAllMovies() {
+        List<Movie> movieList = movieRepository.findAll();
+
+        return movieList.stream()
+                .map(MovieResponse::new)
+                .toList();
     }
 
     public void removeMovieById(String id){
