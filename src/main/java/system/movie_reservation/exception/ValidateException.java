@@ -1,28 +1,27 @@
 package system.movie_reservation.exception;
 
-import system.movie_reservation.model.dto.MovieRequest;
+import system.movie_reservation.model.Movie;
 
 public class ValidateException {
 
-    public static void checkFieldsEmpty(MovieRequest movieRequest){
+    public static void checkFieldsEmpty(Movie movie){
 
         String response = "";
 
-        if(movieRequest.name().isEmpty())
-            response = "the field name is required.";
-        if(movieRequest.description().isEmpty())
+        if(movie.getName().isEmpty())
+            response += "the field name is required.";
+        if(movie.getDescription().isEmpty())
             response += "the field description is required.";
-        if(movieRequest.duration().isEmpty())
+        if(movie.getDuration().isEmpty())
             response += "the field duration is required.";
-        if(movieRequest.categories().isEmpty())
+        if(movie.getCategories().isEmpty())
             response += "the field categories is required.";
-        if(movieRequest.posterUrl().isEmpty())
+        if(movie.getPosterUrl().isEmpty())
             response += "the field posterUrl is required.";
-        if(movieRequest.releaseDate() == 0)
+        if(movie.getReleaseDate() == 0)
             response += "the field releaseDate is required.";
 
         if (!response.isEmpty())
             throw new IllegalArgumentException(response.replace(".", "\n"));
-
     }
 }
