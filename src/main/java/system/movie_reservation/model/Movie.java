@@ -6,7 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import system.movie_reservation.model.Enum.Category;
-import system.movie_reservation.model.dto.MovieRequest;
+import system.movie_reservation.model.request.MovieRequest;
+import system.movie_reservation.model.request.ToUpdate.MovieRequestUpdate;
 
 import java.util.List;
 
@@ -49,5 +50,18 @@ public class Movie {
                 .toList();
         this.posterUrl = movieRequest.posterUrl();
         this.duration = movieRequest.duration();
+    }
+
+    public Movie(MovieRequestUpdate movieReqUpdate) {
+        this.id = movieReqUpdate.id();
+        this.name = movieReqUpdate.name();
+        this.releaseDate = movieReqUpdate.releaseDate();
+        this.description = movieReqUpdate.description();
+        this.categories = movieReqUpdate.categories()
+                .stream()
+                .map(Category.CategoryLoad::toCategory)
+                .toList();
+        this.posterUrl = movieReqUpdate.posterUrl();
+        this.duration = movieReqUpdate.duration();
     }
 }
