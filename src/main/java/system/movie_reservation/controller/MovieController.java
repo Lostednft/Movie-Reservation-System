@@ -1,10 +1,10 @@
 package system.movie_reservation.controller;
 
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import system.movie_reservation.model.dto.MovieRequest;
+import system.movie_reservation.model.request.MovieRequest;
+import system.movie_reservation.model.request.ToUpdate.MovieRequestUpdate;
 import system.movie_reservation.service.MovieService;
 
 @RestController
@@ -23,8 +23,8 @@ public class MovieController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity updateMovie(@RequestBody MovieRequest movieRequest){
-        return ResponseEntity.status(HttpStatus.OK).body(movieService.updateMovie(movieRequest));
+    public ResponseEntity updateMovie(@RequestBody MovieRequestUpdate movieRequestUpdate){
+        return ResponseEntity.status(HttpStatus.OK).body(movieService.updateMovie(movieRequestUpdate));
     }
 
     @GetMapping("/{id}")
