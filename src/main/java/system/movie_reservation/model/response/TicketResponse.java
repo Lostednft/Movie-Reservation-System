@@ -1,7 +1,6 @@
-package system.movie_reservation.model.dto;
+package system.movie_reservation.model.response;
 
 import system.movie_reservation.model.Ticket;
-import system.movie_reservation.service.TicketService;
 
 import java.time.LocalTime;
 import java.util.List;

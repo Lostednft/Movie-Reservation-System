@@ -6,8 +6,8 @@ import system.movie_reservation.model.Movie;
 import system.movie_reservation.model.Seat;
 import system.movie_reservation.model.Ticket;
 import system.movie_reservation.model.User;
-import system.movie_reservation.model.dto.TicketRequest;
-import system.movie_reservation.model.dto.TicketResponse;
+import system.movie_reservation.model.request.TicketRequest;
+import system.movie_reservation.model.response.TicketResponse;
 import system.movie_reservation.repository.TicketRepository;
 
 @Service

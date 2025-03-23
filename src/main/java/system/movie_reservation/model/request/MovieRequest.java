@@ -1,4 +1,4 @@
-package system.movie_reservation.model.dto;
+package system.movie_reservation.model.request;
 
 import system.movie_reservation.model.Enum.Category;
 

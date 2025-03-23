@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import system.movie_reservation.model.Enum.MovieTime;
-import system.movie_reservation.model.dto.TicketRequest;
+import system.movie_reservation.model.request.TicketRequest;
 
 import java.util.List;
 
