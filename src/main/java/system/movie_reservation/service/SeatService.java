@@ -27,10 +27,10 @@ public class SeatService {
 
     public Seat getSeatByMovieAndMovieTime(Movie movie, MovieTime movieTime){
         return seatRepository.findByMovieAndMovieTime(movie, movieTime).orElseThrow(() ->
-                new NoSuchElementException("No Seat found with this ID."));
+                new NoSuchElementException("No Seat found with this movie and movieTime."));
     }
 
-    public void saveSeatWithTicketsUpdated(Ticket ticket){
+    public void saveSeatWithTickets(Ticket ticket){
 
         Seat roomSeats = ticket.getRoomSeats();
         List<SeatTicket> seatTickets = roomSeats.getSeatTicket();
@@ -41,9 +41,21 @@ public class SeatService {
                     .findFirst()
                     .ifPresent(st -> st.setTicketValue(ticket));
         }
-
         roomSeats.setSeatTicket(seatTickets);
         seatRepository.save(roomSeats);
+    }
 
+    public void updateSeatWithTicketUpdated(Ticket ticket){
+
+        Seat roomSeats = ticket.getRoomSeats();
+        List<SeatTicket> seatTickets = roomSeats.getSeatTicket();
+
+        for (SeatTicket seatTicket : seatTickets) {
+
+            if(seatTicket.getTicketValue() != null)
+                if(seatTicket.getTicketValue().equals(ticket))
+                    seatTicket.setTicketValue(null);
+        }
+        saveSeatWithTickets(ticket);
     }
 }
