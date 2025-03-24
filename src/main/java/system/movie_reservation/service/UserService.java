@@ -28,6 +28,12 @@ public class UserService {
 
         User entity = new User(user);
         UserValidateHandler.checkFieldsEmpty(entity);
+
+        UserValidateHandler.checkUsernameAndEmailAlreadyExist(
+                userRepository.findUserByUsername(entity.getUsername()),
+                userRepository.findUserByEmail(entity.getEmail())
+        );
+
         return userRepository.save(entity);
     }
 
@@ -36,12 +42,28 @@ public class UserService {
     }
 
     public User updateUserById(UserRequestUpdate userReqUpdate) {
-        getUserById(userReqUpdate.id());
 
-        User user = new User(userReqUpdate);
-        UserValidateHandler.checkFieldsEmpty(user);
+        User userById = getUserById(userReqUpdate.id());
+        User userUpdated = new User(userReqUpdate);
 
-        return user;
+        UserValidateHandler.checkFieldsEmpty(userUpdated);
+
+        User userFoundByUsername = null;
+        User userFoundByEmail = null;
+
+        if(!userById.getUsername().equals(userUpdated.getUsername()))
+            userFoundByUsername = userRepository.findUserByUsername(
+                    userUpdated.getUsername());
+
+        if(!userById.getEmail().equals(userUpdated.getEmail()))
+            userFoundByEmail = userRepository.findUserByEmail(
+                    userUpdated.getEmail());
+
+        UserValidateHandler.checkUsernameAndEmailAlreadyExist(
+                userFoundByUsername,
+                userFoundByEmail);
+
+        return userUpdated;
     }
 
     public String deleteUserById(String id){

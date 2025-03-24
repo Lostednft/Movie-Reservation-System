@@ -21,4 +21,18 @@ public class UserValidateHandler {
         if (!response.isEmpty())
             throw new IllegalArgumentException(response.replace(".", "\n"));
     }
+
+    public static void checkUsernameAndEmailAlreadyExist(User userUsername, User userEmail){
+
+        String response = "";
+
+        if(userUsername != null)
+            response += "That username already exist.";
+
+        if(userEmail != null)
+            response += "That email already exist.";
+
+        if (!response.isEmpty())
+            throw new IllegalArgumentException(response.replace(".", "\n"));
+    }
 }
