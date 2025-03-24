@@ -7,8 +7,12 @@ import system.movie_reservation.model.Seat;
 import system.movie_reservation.model.Ticket;
 import system.movie_reservation.model.User;
 import system.movie_reservation.model.request.TicketRequest;
+import system.movie_reservation.model.request.ToUpdate.TicketRequestUpdate;
 import system.movie_reservation.model.response.TicketResponse;
 import system.movie_reservation.repository.TicketRepository;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class TicketService {
@@ -40,9 +44,36 @@ public class TicketService {
         Ticket ticket = new Ticket(user, movie, ticketRequest);
         ticket.setRoomSeats(seat);
 
-        seatService.saveSeatWithTicketsUpdated(ticket);
+        seatService.saveSeatWithTickets(ticket);
         ticketRepository.save(ticket);
 
         return new TicketResponse(ticket);
+    }
+
+    public List<Ticket> geAllTickets() {
+        return ticketRepository.findAll();
+    }
+
+    public Ticket getTicketById(Long id) {
+        return ticketRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException("No ticket found with this ID."));
+    }
+
+    @Transactional
+    public Ticket updateTicket(TicketRequestUpdate ticketReqUpdate) {
+
+        Movie movie = movieService.getMovieById(ticketReqUpdate.movieId());
+        Seat seat = seatService.getSeatByMovieAndMovieTime(
+                movie,
+                ticketReqUpdate.movieTime().toMovieTime()
+        );
+
+        Ticket ticketById = getTicketById(ticketReqUpdate.id());
+        ticketById.setMovie(movie);
+        ticketById.setRoomSeats(seat);
+        ticketById.setSeat(ticketReqUpdate.seat());
+
+        seatService.updateSeatWithTicketUpdated(ticketById);
+        return ticketById;
     }
 }

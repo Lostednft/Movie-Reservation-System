@@ -1,11 +1,9 @@
 package system.movie_reservation.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import system.movie_reservation.model.request.TicketRequest;
+import system.movie_reservation.model.request.ToUpdate.TicketRequestUpdate;
 import system.movie_reservation.service.TicketService;
 
 @RestController
@@ -22,4 +20,20 @@ public class TicketController {
     public ResponseEntity saveTicket(@RequestBody TicketRequest ticket){
         return ResponseEntity.ok(ticketService.createTicket(ticket));
     }
+
+    @GetMapping
+    public ResponseEntity getAllTickets(){
+        return ResponseEntity.ok(ticketService.geAllTickets());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getAllTickets(@PathVariable Long id){
+        return ResponseEntity.ok(ticketService.getTicketById(id));
+    }
+
+    @PutMapping
+    public ResponseEntity updateTicket(@RequestBody TicketRequestUpdate ticketReqUpdate){
+        return ResponseEntity.ok(ticketService.updateTicket(ticketReqUpdate));
+    }
+
 }
