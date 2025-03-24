@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import system.movie_reservation.model.Enum.UserRole;
+import system.movie_reservation.model.request.ToUpdate.UserRequestUpdate;
 import system.movie_reservation.model.request.UserRequest;
 
 import java.time.LocalDate;
@@ -33,5 +34,14 @@ public class User {
         this.email = userRequest.email();
         this.dateOfBirth = userRequest.dateOfBirth();
         this.role = userRequest.role();
+    }
+
+    public User(UserRequestUpdate userReqUpdate) {
+        this.id = userReqUpdate.id();
+        this.username = userReqUpdate.username();
+        this.password = userReqUpdate.password();
+        this.email = userReqUpdate.email();
+        this.dateOfBirth = userReqUpdate.dateOfBirth();
+        this.role = userReqUpdate.role();
     }
 }

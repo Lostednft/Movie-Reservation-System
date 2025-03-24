@@ -3,6 +3,7 @@ package system.movie_reservation.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import system.movie_reservation.model.request.ToUpdate.UserRequestUpdate;
 import system.movie_reservation.model.request.UserRequest;
 import system.movie_reservation.service.UserService;
 
@@ -31,4 +32,20 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    @PutMapping
+    public ResponseEntity updateUserById(@RequestBody UserRequestUpdate user){
+        return ResponseEntity.ok(userService.updateUserById(user));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteUserById(@PathVariable String id){
+
+        return ResponseEntity.ok(userService.deleteUserById(id));
+    }
+
+    @DeleteMapping
+    public ResponseEntity deleteAllUsers(){
+
+        return ResponseEntity.ok(userService.removeAllUsers());
+    }
 }
