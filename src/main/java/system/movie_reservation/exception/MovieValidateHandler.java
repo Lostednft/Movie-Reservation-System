@@ -2,7 +2,7 @@ package system.movie_reservation.exception;
 
 import system.movie_reservation.model.Movie;
 
-public class ValidateException {
+public class MovieValidateHandler {
 
     public static void checkFieldsEmpty(Movie movie){
 
