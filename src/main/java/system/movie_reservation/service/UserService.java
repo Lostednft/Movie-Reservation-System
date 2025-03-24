@@ -5,8 +5,10 @@ import system.movie_reservation.exception.UserValidateHandler;
 import system.movie_reservation.model.User;
 import system.movie_reservation.model.request.ToUpdate.UserRequestUpdate;
 import system.movie_reservation.model.request.UserRequest;
+import system.movie_reservation.model.response.UserResponse;
 import system.movie_reservation.repository.UserRepository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -24,7 +26,7 @@ public class UserService {
                 new NoSuchElementException("No User founded with this ID."));
     }
 
-    public User createUser(UserRequest user){
+    public UserResponse createUser(UserRequest user){
 
         User entity = new User(user);
         UserValidateHandler.checkFieldsEmpty(entity);
@@ -33,15 +35,18 @@ public class UserService {
                 userRepository.findUserByUsername(entity.getUsername()),
                 userRepository.findUserByEmail(entity.getEmail())
         );
+        userRepository.save(entity);
 
-        return userRepository.save(entity);
+        return new UserResponse(entity);
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserResponse> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(UserResponse::new)
+                .toList();
     }
 
-    public User updateUserById(UserRequestUpdate userReqUpdate) {
+    public UserResponse updateUserById(UserRequestUpdate userReqUpdate) {
 
         User userById = getUserById(userReqUpdate.id());
         User userUpdated = new User(userReqUpdate);
@@ -63,7 +68,7 @@ public class UserService {
                 userFoundByUsername,
                 userFoundByEmail);
 
-        return userUpdated;
+        return new UserResponse(userUpdated);
     }
 
     public String deleteUserById(String id){

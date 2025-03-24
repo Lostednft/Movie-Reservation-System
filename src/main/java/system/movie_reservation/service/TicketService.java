@@ -32,6 +32,12 @@ public class TicketService {
         this.seatService = seatService;
     }
 
+
+    public Ticket getTicketById(Long id) {
+        return ticketRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException("No ticket found with this ID."));
+    }
+
     @Transactional
     public TicketResponse createTicket(TicketRequest ticketRequest) {
 
@@ -50,17 +56,14 @@ public class TicketService {
         return new TicketResponse(ticket);
     }
 
-    public List<Ticket> geAllTickets() {
-        return ticketRepository.findAll();
-    }
-
-    public Ticket getTicketById(Long id) {
-        return ticketRepository.findById(id).orElseThrow(() ->
-                new NoSuchElementException("No ticket found with this ID."));
+    public List<TicketResponse> geAllTickets() {
+        return ticketRepository.findAll().stream()
+                .map(TicketResponse::new)
+                .toList();
     }
 
     @Transactional
-    public Ticket updateTicket(TicketRequestUpdate ticketReqUpdate) {
+    public TicketResponse updateTicket(TicketRequestUpdate ticketReqUpdate) {
 
         Movie movie = movieService.getMovieById(ticketReqUpdate.movieId());
         Seat seat = seatService.getSeatByMovieAndMovieTime(
@@ -74,6 +77,6 @@ public class TicketService {
         ticketById.setSeat(ticketReqUpdate.seat());
 
         seatService.updateSeatWithTicketUpdated(ticketById);
-        return ticketById;
+        return new TicketResponse(ticketById);
     }
 }

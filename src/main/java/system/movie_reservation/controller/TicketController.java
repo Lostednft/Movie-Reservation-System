@@ -27,7 +27,7 @@ public class TicketController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getAllTickets(@PathVariable Long id){
+    public ResponseEntity getTicketById(@PathVariable Long id){
         return ResponseEntity.ok(ticketService.getTicketById(id));
     }
 
