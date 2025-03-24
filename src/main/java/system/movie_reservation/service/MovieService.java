@@ -2,7 +2,7 @@ package system.movie_reservation.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import system.movie_reservation.exception.ValidateException;
+import system.movie_reservation.exception.MovieValidateHandler;
 import system.movie_reservation.model.Enum.MovieTime;
 import system.movie_reservation.model.Movie;
 import system.movie_reservation.model.Seat;
@@ -12,7 +12,6 @@ import system.movie_reservation.model.response.MovieResponse;
 import system.movie_reservation.repository.MovieRepository;
 import system.movie_reservation.repository.SeatRepository;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -36,7 +35,7 @@ public class MovieService {
     @Transactional
     public MovieResponse createMovie(MovieRequest movieRequest){
         Movie movie = new Movie(movieRequest);
-        ValidateException.checkFieldsEmpty(movie);
+        MovieValidateHandler.checkFieldsEmpty(movie);
         movie.setRooms(createAutoRooms(movie));
         movieRepository.save(movie);
         return new MovieResponse(movie);
@@ -48,7 +47,7 @@ public class MovieService {
         Movie movieUpdated = new Movie(movieReqUpdate);
         movieUpdated.setRooms(movieSavedDB.getRooms());
 
-        ValidateException.checkFieldsEmpty(movieUpdated);
+        MovieValidateHandler.checkFieldsEmpty(movieUpdated);
 
         movieRepository.save(movieUpdated);
         return new MovieResponse(movieUpdated);
