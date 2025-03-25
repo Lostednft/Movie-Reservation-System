@@ -2,13 +2,13 @@ package system.movie_reservation.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import system.movie_reservation.model.Movie.Movie;
-import system.movie_reservation.model.Seat.Seat;
-import system.movie_reservation.model.Ticket.Ticket;
-import system.movie_reservation.model.User.User;
-import system.movie_reservation.model.Ticket.TicketRequest;
-import system.movie_reservation.model.Ticket.TicketRequestUpdate;
-import system.movie_reservation.model.Ticket.TicketResponse;
+import system.movie_reservation.model.movie.Movie;
+import system.movie_reservation.model.seat.Seat;
+import system.movie_reservation.model.ticket.Ticket;
+import system.movie_reservation.model.user.User;
+import system.movie_reservation.model.ticket.TicketRequest;
+import system.movie_reservation.model.ticket.TicketRequestUpdate;
+import system.movie_reservation.model.ticket.TicketResponse;
 import system.movie_reservation.repository.TicketRepository;
 
 import java.util.List;

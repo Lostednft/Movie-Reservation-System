@@ -1,8 +1,8 @@
-package system.movie_reservation.runnable;
+package system.movie_reservation.runnable.Component;
 
 import org.springframework.stereotype.Component;
-import system.movie_reservation.model.Movie.EnumLoader.MovieTime;
-import system.movie_reservation.repository.MovieTimeRepository;
+import system.movie_reservation.model.movie.EnumLoader.MovieTime;
+import system.movie_reservation.repository.unservices.MovieTimeRepository;
 
 import java.util.Arrays;
 
@@ -17,7 +17,8 @@ public class MovieTimeLoader {
 
     public void saveAllMovietimes(){
 
-        Arrays.stream(MovieTime.MovieTimeLoad.values())
+        if(movieTimeRepository.findAll().size() < 3)
+            Arrays.stream(MovieTime.MovieTimeLoad.values())
                 .map(MovieTime.MovieTimeLoad::toMovieTime)
                 .forEach(movieTimeRepository::save);
     }

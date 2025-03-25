@@ -1,8 +1,8 @@
-package system.movie_reservation.runnable;
+package system.movie_reservation.runnable.Component;
 
 import org.springframework.stereotype.Component;
-import system.movie_reservation.model.Movie.EnumLoader.Category;
-import system.movie_reservation.repository.CategoryRepository;
+import system.movie_reservation.model.movie.EnumLoader.Category;
+import system.movie_reservation.repository.unservices.CategoryRepository;
 
 import java.util.Arrays;
 
@@ -16,7 +16,9 @@ public class CategoryLoader {
     }
 
     public void saveAllCategories(){
-        Arrays.stream(Category.CategoryLoad.values())
+
+        if(categoryRepository.findAll().size() < 14)
+            Arrays.stream(Category.CategoryLoad.values())
                 .map(Category.CategoryLoad::toCategory)
                 .forEach(categoryRepository::save);
     }

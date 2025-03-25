@@ -1,6 +1,6 @@
 package system.movie_reservation.exception;
 
-import system.movie_reservation.model.User.User;
+import system.movie_reservation.model.user.User;
 
 public class UserValidateHandler {
 

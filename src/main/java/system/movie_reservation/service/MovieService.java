@@ -3,10 +3,10 @@ package system.movie_reservation.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import system.movie_reservation.exception.MovieValidateHandler;
-import system.movie_reservation.model.Movie.Movie;
-import system.movie_reservation.model.Movie.MovieRequest;
-import system.movie_reservation.model.Movie.MovieRequestUpdate;
-import system.movie_reservation.model.Movie.MovieResponse;
+import system.movie_reservation.model.movie.Movie;
+import system.movie_reservation.model.movie.MovieRequest;
+import system.movie_reservation.model.movie.MovieRequestUpdate;
+import system.movie_reservation.model.movie.MovieResponse;
 import system.movie_reservation.repository.MovieRepository;
 
 import java.util.List;

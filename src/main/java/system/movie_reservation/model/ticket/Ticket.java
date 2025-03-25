@@ -1,14 +1,14 @@
-package system.movie_reservation.model.Ticket;
+package system.movie_reservation.model.ticket;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import system.movie_reservation.model.Movie.EnumLoader.MovieTime;
-import system.movie_reservation.model.Movie.Movie;
-import system.movie_reservation.model.Seat.Seat;
-import system.movie_reservation.model.User.User;
+import system.movie_reservation.model.movie.EnumLoader.MovieTime;
+import system.movie_reservation.model.movie.Movie;
+import system.movie_reservation.model.seat.Seat;
+import system.movie_reservation.model.user.User;
 
 import java.util.List;
 

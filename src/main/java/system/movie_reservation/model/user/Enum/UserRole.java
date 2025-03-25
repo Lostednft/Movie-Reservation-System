@@ -1,4 +1,4 @@
-package system.movie_reservation.model.User.Enum;
+package system.movie_reservation.model.user.Enum;
 
 
 public enum UserRole {

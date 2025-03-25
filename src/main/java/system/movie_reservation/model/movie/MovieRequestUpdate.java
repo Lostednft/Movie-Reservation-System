@@ -1,6 +1,6 @@
-package system.movie_reservation.model.Movie;
+package system.movie_reservation.model.movie;
 
-import system.movie_reservation.model.Movie.EnumLoader.Category;
+import system.movie_reservation.model.movie.EnumLoader.Category;
 
 import java.util.List;
 

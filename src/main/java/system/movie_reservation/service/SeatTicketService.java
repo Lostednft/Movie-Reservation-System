@@ -1,9 +1,9 @@
 package system.movie_reservation.service;
 
 import org.springframework.stereotype.Service;
-import system.movie_reservation.model.Seat.Seat;
-import system.movie_reservation.model.Seat.SeatTicket;
-import system.movie_reservation.model.Ticket.Ticket;
+import system.movie_reservation.model.seat.Seat;
+import system.movie_reservation.model.seat.SeatTicket;
+import system.movie_reservation.model.ticket.Ticket;
 import system.movie_reservation.repository.SeatRepository;
 
 import java.util.List;
@@ -16,7 +16,6 @@ public class SeatTicketService {
     public SeatTicketService(SeatRepository seatRepository) {
         this.seatRepository = seatRepository;
     }
-
 
     void saveSeatWithTickets(Ticket ticket){
 

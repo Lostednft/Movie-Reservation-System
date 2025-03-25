@@ -1,6 +1,6 @@
-package system.movie_reservation.model.Ticket;
+package system.movie_reservation.model.ticket;
 
-import system.movie_reservation.model.Movie.EnumLoader.MovieTime;
+import system.movie_reservation.model.movie.EnumLoader.MovieTime;
 import java.util.List;
 
 public record TicketRequest(String userId,

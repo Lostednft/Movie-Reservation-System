@@ -2,8 +2,8 @@ package system.movie_reservation.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import system.movie_reservation.model.Ticket.TicketRequest;
-import system.movie_reservation.model.Ticket.TicketRequestUpdate;
+import system.movie_reservation.model.ticket.TicketRequest;
+import system.movie_reservation.model.ticket.TicketRequestUpdate;
 import system.movie_reservation.service.TicketService;
 
 @RestController

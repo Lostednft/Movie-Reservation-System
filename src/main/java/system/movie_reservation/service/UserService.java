@@ -2,10 +2,10 @@ package system.movie_reservation.service;
 
 import org.springframework.stereotype.Service;
 import system.movie_reservation.exception.UserValidateHandler;
-import system.movie_reservation.model.User.User;
-import system.movie_reservation.model.User.UserRequestUpdate;
-import system.movie_reservation.model.User.UserRequest;
-import system.movie_reservation.model.User.UserResponse;
+import system.movie_reservation.model.user.User;
+import system.movie_reservation.model.user.UserRequestUpdate;
+import system.movie_reservation.model.user.UserRequest;
+import system.movie_reservation.model.user.UserResponse;
 import system.movie_reservation.repository.UserRepository;
 
 import java.util.List;
