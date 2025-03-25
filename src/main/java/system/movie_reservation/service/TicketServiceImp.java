@@ -11,12 +11,13 @@ import system.movie_reservation.model.ticket.TicketRequest;
 import system.movie_reservation.model.ticket.TicketRequestUpdate;
 import system.movie_reservation.model.ticket.TicketResponse;
 import system.movie_reservation.repository.TicketRepository;
+import system.movie_reservation.service.usescases.TicketUsesCases;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class TicketService {
+public class TicketService implements TicketUsesCases {
 
     private final TicketRepository ticketRepository;
     private final UserService userService;
@@ -36,10 +37,15 @@ public class TicketService {
         this.seatTicketService = seatTicketService;
     }
 
-
+    @Override
     public Ticket getTicketById(Long id) {
         return ticketRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException("No ticket found with this ID."));
+    }
+
+    @Override
+    public Ticket getTicketByMovieId(String movieId) {
+        return ticketRepository.findByMovieId(movieId);
     }
 
     @Transactional

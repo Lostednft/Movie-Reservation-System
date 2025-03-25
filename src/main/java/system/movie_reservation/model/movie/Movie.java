@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import system.movie_reservation.model.movie.EnumLoader.Category;
 import system.movie_reservation.model.seat.Seat;
+import system.movie_reservation.model.ticket.Ticket;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,10 +29,10 @@ public class Movie {
     private String posterUrl;
     private String duration;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinTable(name = "movie_rooms_tb",
-    joinColumns = @JoinColumn(name = "movie_id"),
-    inverseJoinColumns = @JoinColumn(name = "seat_id"))
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ticket> tickets = new ArrayList<>();
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Seat> rooms;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
