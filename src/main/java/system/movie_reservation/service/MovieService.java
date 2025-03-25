@@ -16,11 +16,14 @@ import java.util.NoSuchElementException;
 public class MovieService {
 
     private final MovieRepository movieRepository;
-    private final SeatQueryService seatTicketService;
+    private final SeatQueryService seatQueryService;
+    private final SeatTicketService seatTicketService;
 
     public MovieService(MovieRepository movieRepository,
-                        SeatQueryService seatTicketService) {
+                        SeatQueryService seatQueryService,
+                        SeatTicketService seatTicketService) {
         this.movieRepository = movieRepository;
+        this.seatQueryService = seatQueryService;
         this.seatTicketService = seatTicketService;
     }
 
@@ -34,7 +37,7 @@ public class MovieService {
     public MovieResponse createMovie(MovieRequest movieRequest){
         Movie movie = new Movie(movieRequest);
         MovieValidationHandler.checkFieldsEmpty(movie);
-        movie.setRooms(seatTicketService.createSeatsToMovie(movie));
+        movie.setRooms(seatQueryService.createSeatsToMovie(movie));
         movieRepository.save(movie);
         return new MovieResponse(movie);
     }
@@ -68,6 +71,7 @@ public class MovieService {
         if(movieRepository.findAll().isEmpty())
             return "No movies registered.";
 
+        seatTicketService.deleteAllTicketsFromSeat();
         movieRepository.deleteAll();
         return "All movies was removed successfully";
     }

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class TicketService implements TicketUsesCases {
+public class TicketServiceImp implements TicketUsesCases {
 
     private final TicketRepository ticketRepository;
     private final UserService userService;
@@ -25,11 +25,11 @@ public class TicketService implements TicketUsesCases {
     private final SeatQueryService seatQueryService;
     private final SeatTicketService seatTicketService;
 
-    public TicketService(TicketRepository ticketRepository,
-                         UserService userService,
-                         MovieService movieService,
-                         SeatQueryService seatQueryService,
-                         SeatTicketService seatTicketService) {
+    public TicketServiceImp(TicketRepository ticketRepository,
+                            UserService userService,
+                            MovieService movieService,
+                            SeatQueryService seatQueryService,
+                            SeatTicketService seatTicketService) {
         this.ticketRepository = ticketRepository;
         this.userService = userService;
         this.movieService = movieService;
@@ -41,11 +41,6 @@ public class TicketService implements TicketUsesCases {
     public Ticket getTicketById(Long id) {
         return ticketRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException("No ticket found with this ID."));
-    }
-
-    @Override
-    public Ticket getTicketByMovieId(String movieId) {
-        return ticketRepository.findByMovieId(movieId);
     }
 
     @Transactional
@@ -95,7 +90,7 @@ public class TicketService implements TicketUsesCases {
 
     public String deleteTicketById(Long id) {
         Ticket ticketById = getTicketById(id);
-        seatTicketService.updateAndRemoveTicketFromSeat(ticketById, "delete");
+
         ticketRepository.delete(ticketById);
         return "Ticket was deleted successfully";
     }
