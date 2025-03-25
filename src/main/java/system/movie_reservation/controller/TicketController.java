@@ -36,4 +36,13 @@ public class TicketController {
         return ResponseEntity.ok(ticketService.updateTicket(ticketReqUpdate));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteTicketById(@PathVariable Long id){
+        return ResponseEntity.ok(ticketService.deleteTicketById(id));
+    }
+
+    @DeleteMapping
+    public ResponseEntity deleteAllTickets(){
+        return ResponseEntity.ok(ticketService.deleteAllTickets());
+    }
 }

@@ -8,8 +8,10 @@ import system.movie_reservation.model.SeatTicket;
 import system.movie_reservation.model.Ticket;
 import system.movie_reservation.repository.SeatRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 @Service
 public class SeatService {
@@ -45,7 +47,7 @@ public class SeatService {
         seatRepository.save(roomSeats);
     }
 
-    public void updateSeatWithTicketUpdated(Ticket ticket){
+    public void updateAndRemoveTicketFromSeat(Ticket ticket, String methodHttp){
 
         Seat roomSeats = ticket.getRoomSeats();
         List<SeatTicket> seatTickets = roomSeats.getSeatTicket();
@@ -56,6 +58,23 @@ public class SeatService {
                 if(seatTicket.getTicketValue().equals(ticket))
                     seatTicket.setTicketValue(null);
         }
-        saveSeatWithTickets(ticket);
+        if (methodHttp.equals("update"))
+            saveSeatWithTickets(ticket);
+
+        if (methodHttp.equals("delete")) {
+            roomSeats.setSeatTicket(seatTickets);
+            seatRepository.save(roomSeats);
+        }
+    }
+
+    public void deleteAllTicketsFromSeat(){
+        List<Seat> allSeat = seatRepository.findAll();
+
+        allSeat.forEach(stTicket ->
+                stTicket.getSeatTicket().forEach(value ->
+                        value.setTicketValue(null)
+                )
+        );
+        seatRepository.saveAll(allSeat);
     }
 }

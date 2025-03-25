@@ -76,7 +76,20 @@ public class TicketService {
         ticketById.setRoomSeats(seat);
         ticketById.setSeat(ticketReqUpdate.seat());
 
-        seatService.updateSeatWithTicketUpdated(ticketById);
+        seatService.updateAndRemoveTicketFromSeat(ticketById, "update");
         return new TicketResponse(ticketById);
+    }
+
+    public String deleteTicketById(Long id) {
+        Ticket ticketById = getTicketById(id);
+        seatService.updateAndRemoveTicketFromSeat(ticketById, "delete");
+        ticketRepository.delete(ticketById);
+        return "Ticket was deleted successfully";
+    }
+
+    public String deleteAllTickets() {
+        seatService.deleteAllTicketsFromSeat();
+        ticketRepository.deleteAll();
+        return "All Tickets was deleted";
     }
 }
