@@ -8,10 +8,8 @@ import system.movie_reservation.model.SeatTicket;
 import system.movie_reservation.model.Ticket;
 import system.movie_reservation.repository.SeatRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Stream;
 
 @Service
 public class SeatService {
@@ -27,12 +25,24 @@ public class SeatService {
                 new NoSuchElementException("No Seat found with this ID."));
     }
 
-    public Seat getSeatByMovieAndMovieTime(Movie movie, MovieTime movieTime){
+    Seat getSeatByMovieAndMovieTime(Movie movie, MovieTime movieTime){
         return seatRepository.findByMovieAndMovieTime(movie, movieTime).orElseThrow(() ->
                 new NoSuchElementException("No Seat found with this movie and movieTime."));
     }
 
-    public void saveSeatWithTickets(Ticket ticket){
+
+    List<Seat> createSeatsToMovie(Movie movie){
+        List<Seat> seatList = List.of(
+                new Seat(movie, MovieTime.MovieTimeLoad.TURN_01.toMovieTime()),
+                new Seat(movie, MovieTime.MovieTimeLoad.TURN_02.toMovieTime()),
+                new Seat(movie, MovieTime.MovieTimeLoad.TURN_03.toMovieTime()));
+
+        seatRepository.saveAll(seatList);
+        return seatList;
+    }
+
+
+    void saveSeatWithTickets(Ticket ticket){
 
         Seat roomSeats = ticket.getRoomSeats();
         List<SeatTicket> seatTickets = roomSeats.getSeatTicket();
@@ -47,7 +57,7 @@ public class SeatService {
         seatRepository.save(roomSeats);
     }
 
-    public void updateAndRemoveTicketFromSeat(Ticket ticket, String methodHttp){
+    void updateAndRemoveTicketFromSeat(Ticket ticket, String methodHttp){
 
         Seat roomSeats = ticket.getRoomSeats();
         List<SeatTicket> seatTickets = roomSeats.getSeatTicket();
@@ -67,7 +77,7 @@ public class SeatService {
         }
     }
 
-    public void deleteAllTicketsFromSeat(){
+    void deleteAllTicketsFromSeat(){
         List<Seat> allSeat = seatRepository.findAll();
 
         allSeat.forEach(stTicket ->

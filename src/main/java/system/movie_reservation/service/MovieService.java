@@ -3,9 +3,7 @@ package system.movie_reservation.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import system.movie_reservation.exception.MovieValidateHandler;
-import system.movie_reservation.model.Enum.MovieTime;
 import system.movie_reservation.model.Movie;
-import system.movie_reservation.model.Seat;
 import system.movie_reservation.model.request.MovieRequest;
 import system.movie_reservation.model.request.ToUpdate.MovieRequestUpdate;
 import system.movie_reservation.model.response.MovieResponse;
@@ -19,12 +17,12 @@ import java.util.NoSuchElementException;
 public class MovieService {
 
     private final MovieRepository movieRepository;
-    private final SeatRepository seatRepository;
+    private final SeatService seatService;
 
     public MovieService(MovieRepository movieRepository,
-                        SeatRepository seatRepository) {
+                        SeatService seatService) {
         this.movieRepository = movieRepository;
-        this.seatRepository = seatRepository;
+        this.seatService = seatService;
     }
 
     public Movie getMovieById(String id){
@@ -36,7 +34,7 @@ public class MovieService {
     public MovieResponse createMovie(MovieRequest movieRequest){
         Movie movie = new Movie(movieRequest);
         MovieValidateHandler.checkFieldsEmpty(movie);
-        movie.setRooms(createAutoRooms(movie));
+        movie.setRooms(seatService.createSeatsToMovie(movie));
         movieRepository.save(movie);
         return new MovieResponse(movie);
     }
@@ -70,15 +68,5 @@ public class MovieService {
 
     public void removeAllMovies(){
         movieRepository.deleteAll();
-    }
-
-    private List<Seat> createAutoRooms(Movie movie){
-        List<Seat> seatList = List.of(
-                new Seat(movie, MovieTime.MovieTimeLoad.TURN_01.toMovieTime()),
-                new Seat(movie, MovieTime.MovieTimeLoad.TURN_02.toMovieTime()),
-                new Seat(movie, MovieTime.MovieTimeLoad.TURN_03.toMovieTime()));
-
-        seatRepository.saveAll(seatList);
-        return seatList;
     }
 }
