@@ -2,9 +2,9 @@ package system.movie_reservation.exception;
 
 import system.movie_reservation.model.user.User;
 
-public class UserValidateHandler {
+public class UserValidationHandler {
 
-    public static void checkFieldsEmpty(User user){
+    public static void checkEmptyFields(User user){
         String response = "";
 
         if(user.getUsername().isEmpty())
@@ -22,7 +22,7 @@ public class UserValidateHandler {
             throw new IllegalArgumentException(response.replace(".", "\n"));
     }
 
-    public static void checkUsernameAndEmailAlreadyExist(User userUsername, User userEmail){
+        public static void checkUsernameAndEmailAlreadyExist(User userUsername, User userEmail){
 
         String response = "";
 

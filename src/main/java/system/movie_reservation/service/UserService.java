@@ -1,7 +1,8 @@
 package system.movie_reservation.service;
 
 import org.springframework.stereotype.Service;
-import system.movie_reservation.exception.UserValidateHandler;
+import org.springframework.transaction.annotation.Transactional;
+import system.movie_reservation.exception.UserValidationHandler;
 import system.movie_reservation.model.user.User;
 import system.movie_reservation.model.user.UserRequestUpdate;
 import system.movie_reservation.model.user.UserRequest;
@@ -28,9 +29,9 @@ public class UserService {
     public UserResponse createUser(UserRequest user){
 
         User entity = new User(user);
-        UserValidateHandler.checkFieldsEmpty(entity);
+        UserValidationHandler.checkEmptyFields(entity);
 
-        UserValidateHandler.checkUsernameAndEmailAlreadyExist(
+        UserValidationHandler.checkUsernameAndEmailAlreadyExist(
                 userRepository.findUserByUsername(entity.getUsername()),
                 userRepository.findUserByEmail(entity.getEmail())
         );
@@ -45,12 +46,12 @@ public class UserService {
                 .toList();
     }
 
+    @Transactional
     public UserResponse updateUserById(UserRequestUpdate userReqUpdate) {
 
         User userById = getUserById(userReqUpdate.id());
         User userUpdated = new User(userReqUpdate);
-
-        UserValidateHandler.checkFieldsEmpty(userUpdated);
+        UserValidationHandler.checkEmptyFields(userUpdated);
 
         User userFoundByUsername = null;
         User userFoundByEmail = null;
@@ -63,10 +64,11 @@ public class UserService {
             userFoundByEmail = userRepository.findUserByEmail(
                     userUpdated.getEmail());
 
-        UserValidateHandler.checkUsernameAndEmailAlreadyExist(
+        UserValidationHandler.checkUsernameAndEmailAlreadyExist(
                 userFoundByUsername,
                 userFoundByEmail);
 
+        userRepository.save(userUpdated);
         return new UserResponse(userUpdated);
     }
 
@@ -74,15 +76,15 @@ public class UserService {
         getUserById(id);
         userRepository.deleteById(id);
 
-        return "Movie deleted successfully";
+        return "User deleted successfully";
     }
 
     public String removeAllUsers() {
 
         if(userRepository.findAll().isEmpty())
-            return "No movie registered.";
+            return "No users registered.";
 
         userRepository.deleteAll();
-        return "All movies was removed successfully";
+        return "All users was removed successfully";
     }
 }

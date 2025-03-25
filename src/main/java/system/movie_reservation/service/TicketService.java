@@ -2,6 +2,7 @@ package system.movie_reservation.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import system.movie_reservation.exception.TicketValidationHandler;
 import system.movie_reservation.model.movie.Movie;
 import system.movie_reservation.model.seat.Seat;
 import system.movie_reservation.model.ticket.Ticket;
@@ -26,7 +27,8 @@ public class TicketService {
     public TicketService(TicketRepository ticketRepository,
                          UserService userService,
                          MovieService movieService,
-                         SeatQueryService seatQueryService, SeatTicketService seatTicketService) {
+                         SeatQueryService seatQueryService,
+                         SeatTicketService seatTicketService) {
         this.ticketRepository = ticketRepository;
         this.userService = userService;
         this.movieService = movieService;
@@ -43,6 +45,7 @@ public class TicketService {
     @Transactional
     public TicketResponse createTicket(TicketRequest ticketRequest) {
 
+        TicketValidationHandler.createMethodEmptyFieldVerifier(ticketRequest);
         User user = userService.getUserById(ticketRequest.userId());
         Movie movie = movieService.getMovieById(ticketRequest.movieId());
         Seat seat = seatQueryService.getSeatByMovieAndMovieTime(
@@ -59,6 +62,7 @@ public class TicketService {
     }
 
     public List<TicketResponse> geAllTickets() {
+
         return ticketRepository.findAll().stream()
                 .map(TicketResponse::new)
                 .toList();
@@ -67,6 +71,7 @@ public class TicketService {
     @Transactional
     public TicketResponse updateTicket(TicketRequestUpdate ticketReqUpdate) {
 
+        TicketValidationHandler.updateMethodEmptyFieldVerifier(ticketReqUpdate);
         Movie movie = movieService.getMovieById(ticketReqUpdate.movieId());
         Seat seat = seatQueryService.getSeatByMovieAndMovieTime(
                 movie,
@@ -90,6 +95,9 @@ public class TicketService {
     }
 
     public String deleteAllTickets() {
+        if(ticketRepository.findAll().isEmpty())
+            return "No tickets registered.";
+
         seatTicketService.deleteAllTicketsFromSeat();
         ticketRepository.deleteAll();
         return "All Tickets was deleted";

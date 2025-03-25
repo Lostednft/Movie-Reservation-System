@@ -2,7 +2,7 @@ package system.movie_reservation.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import system.movie_reservation.exception.MovieValidateHandler;
+import system.movie_reservation.exception.MovieValidationHandler;
 import system.movie_reservation.model.movie.Movie;
 import system.movie_reservation.model.movie.MovieRequest;
 import system.movie_reservation.model.movie.MovieRequestUpdate;
@@ -33,7 +33,7 @@ public class MovieService {
     @Transactional
     public MovieResponse createMovie(MovieRequest movieRequest){
         Movie movie = new Movie(movieRequest);
-        MovieValidateHandler.checkFieldsEmpty(movie);
+        MovieValidationHandler.checkFieldsEmpty(movie);
         movie.setRooms(seatTicketService.createSeatsToMovie(movie));
         movieRepository.save(movie);
         return new MovieResponse(movie);
@@ -41,12 +41,10 @@ public class MovieService {
 
     @Transactional
     public MovieResponse updateMovie(MovieRequestUpdate movieReqUpdate){
-
         Movie movieSavedDB = getMovieById(movieReqUpdate.id());
         Movie movieUpdated = new Movie(movieReqUpdate);
+        MovieValidationHandler.checkFieldsEmpty(movieUpdated);
         movieUpdated.setRooms(movieSavedDB.getRooms());
-
-        MovieValidateHandler.checkFieldsEmpty(movieUpdated);
 
         movieRepository.save(movieUpdated);
         return new MovieResponse(movieUpdated);
@@ -60,13 +58,17 @@ public class MovieService {
                 .toList();
     }
 
-    public void removeMovieById(String id){
+    public String removeMovieById(String id){
         Movie movie = getMovieById(id);
-        if(movie != null)
-            movieRepository.delete(movie);
+        movieRepository.delete(movie);
+        return "Movie deleted successfully";
     }
 
-    public void removeAllMovies(){
+    public String removeAllMovies(){
+        if(movieRepository.findAll().isEmpty())
+            return "No movies registered.";
+
         movieRepository.deleteAll();
+        return "All movies was removed successfully";
     }
 }
