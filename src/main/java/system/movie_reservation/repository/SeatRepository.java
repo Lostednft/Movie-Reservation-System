@@ -2,9 +2,9 @@ package system.movie_reservation.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import system.movie_reservation.model.Enum.MovieTime;
-import system.movie_reservation.model.Movie;
-import system.movie_reservation.model.Seat;
+import system.movie_reservation.model.Movie.EnumLoader.MovieTime;
+import system.movie_reservation.model.Movie.Movie;
+import system.movie_reservation.model.Seat.Seat;
 
 import java.util.Optional;
 

@@ -1,8 +1,7 @@
-package system.movie_reservation.model.response;
+package system.movie_reservation.model.Movie;
 
-import system.movie_reservation.model.Enum.Category;
-import system.movie_reservation.model.Movie;
-import system.movie_reservation.model.Seat;
+import system.movie_reservation.model.Movie.EnumLoader.Category;
+import system.movie_reservation.model.Seat.Seat;
 
 import java.util.List;
 

@@ -3,8 +3,8 @@ package system.movie_reservation.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import system.movie_reservation.model.request.MovieRequest;
-import system.movie_reservation.model.request.ToUpdate.MovieRequestUpdate;
+import system.movie_reservation.model.Movie.MovieRequest;
+import system.movie_reservation.model.Movie.MovieRequestUpdate;
 import system.movie_reservation.service.MovieService;
 
 @RestController

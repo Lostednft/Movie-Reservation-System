@@ -1,7 +1,7 @@
 package system.movie_reservation.runnable;
 
 import org.springframework.stereotype.Component;
-import system.movie_reservation.model.Enum.Category;
+import system.movie_reservation.model.Movie.EnumLoader.Category;
 import system.movie_reservation.repository.CategoryRepository;
 
 import java.util.Arrays;

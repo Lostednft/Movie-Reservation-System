@@ -1,15 +1,12 @@
 package system.movie_reservation.service;
 
 import org.springframework.stereotype.Service;
-import system.movie_reservation.model.Enum.MovieTime;
-import system.movie_reservation.model.Movie;
-import system.movie_reservation.model.Seat;
-import system.movie_reservation.model.SeatTicket;
-import system.movie_reservation.model.Ticket;
+import system.movie_reservation.model.Seat.Seat;
+import system.movie_reservation.model.Seat.SeatTicket;
+import system.movie_reservation.model.Ticket.Ticket;
 import system.movie_reservation.repository.SeatRepository;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class SeatTicketService {

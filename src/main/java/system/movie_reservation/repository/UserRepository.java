@@ -1,9 +1,7 @@
 package system.movie_reservation.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import system.movie_reservation.model.User;
-
-import java.util.Optional;
+import system.movie_reservation.model.User.User;
 
 public interface UserRepository extends JpaRepository<User, String> {
 

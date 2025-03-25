@@ -1,7 +1,7 @@
 package system.movie_reservation.runnable;
 
 import org.springframework.stereotype.Component;
-import system.movie_reservation.model.Enum.MovieTime;
+import system.movie_reservation.model.Movie.EnumLoader.MovieTime;
 import system.movie_reservation.repository.MovieTimeRepository;
 
 import java.util.Arrays;

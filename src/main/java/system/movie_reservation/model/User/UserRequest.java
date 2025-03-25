@@ -1,6 +1,6 @@
-package system.movie_reservation.model.request;
+package system.movie_reservation.model.User;
 
-import system.movie_reservation.model.Enum.UserRole;
+import system.movie_reservation.model.User.Enum.UserRole;
 import java.time.LocalDate;
 
 public record UserRequest(String username,

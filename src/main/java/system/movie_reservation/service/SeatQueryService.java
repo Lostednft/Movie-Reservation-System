@@ -1,9 +1,9 @@
 package system.movie_reservation.service;
 
 import org.springframework.stereotype.Service;
-import system.movie_reservation.model.Enum.MovieTime;
-import system.movie_reservation.model.Movie;
-import system.movie_reservation.model.Seat;
+import system.movie_reservation.model.Movie.EnumLoader.MovieTime;
+import system.movie_reservation.model.Movie.Movie;
+import system.movie_reservation.model.Seat.Seat;
 import system.movie_reservation.repository.SeatRepository;
 
 import java.util.List;

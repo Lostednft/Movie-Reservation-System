@@ -2,13 +2,12 @@ package system.movie_reservation.service;
 
 import org.springframework.stereotype.Service;
 import system.movie_reservation.exception.UserValidateHandler;
-import system.movie_reservation.model.User;
-import system.movie_reservation.model.request.ToUpdate.UserRequestUpdate;
-import system.movie_reservation.model.request.UserRequest;
-import system.movie_reservation.model.response.UserResponse;
+import system.movie_reservation.model.User.User;
+import system.movie_reservation.model.User.UserRequestUpdate;
+import system.movie_reservation.model.User.UserRequest;
+import system.movie_reservation.model.User.UserResponse;
 import system.movie_reservation.repository.UserRepository;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 

@@ -1,6 +1,6 @@
-package system.movie_reservation.model.request.ToUpdate;
+package system.movie_reservation.model.Ticket;
 
-import system.movie_reservation.model.Enum.MovieTime;
+import system.movie_reservation.model.Movie.EnumLoader.MovieTime;
 
 import java.util.List;
 

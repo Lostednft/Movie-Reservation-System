@@ -1,13 +1,11 @@
-package system.movie_reservation.model;
+package system.movie_reservation.model.User;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import system.movie_reservation.model.Enum.UserRole;
-import system.movie_reservation.model.request.ToUpdate.UserRequestUpdate;
-import system.movie_reservation.model.request.UserRequest;
+import system.movie_reservation.model.User.Enum.UserRole;
 
 import java.time.LocalDate;
 

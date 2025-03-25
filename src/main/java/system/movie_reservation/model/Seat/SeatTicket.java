@@ -1,10 +1,11 @@
-package system.movie_reservation.model;
+package system.movie_reservation.model.Seat;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import system.movie_reservation.model.Ticket.Ticket;
 
 @Entity
 @Table(name = "seat_tickets_tb")

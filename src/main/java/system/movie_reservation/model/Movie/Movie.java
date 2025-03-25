@@ -1,13 +1,12 @@
-package system.movie_reservation.model;
+package system.movie_reservation.model.Movie;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import system.movie_reservation.model.Enum.Category;
-import system.movie_reservation.model.request.MovieRequest;
-import system.movie_reservation.model.request.ToUpdate.MovieRequestUpdate;
+import system.movie_reservation.model.Movie.EnumLoader.Category;
+import system.movie_reservation.model.Seat.Seat;
 
 import java.util.List;
 
