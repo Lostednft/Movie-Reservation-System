@@ -20,16 +20,18 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final UserService userService;
     private final MovieService movieService;
-    private final SeatService seatService;
+    private final SeatQueryService seatQueryService;
+    private final SeatTicketService seatTicketService;
 
     public TicketService(TicketRepository ticketRepository,
                          UserService userService,
                          MovieService movieService,
-                         SeatService seatService) {
+                         SeatQueryService seatQueryService, SeatTicketService seatTicketService) {
         this.ticketRepository = ticketRepository;
         this.userService = userService;
         this.movieService = movieService;
-        this.seatService = seatService;
+        this.seatQueryService = seatQueryService;
+        this.seatTicketService = seatTicketService;
     }
 
 
@@ -43,14 +45,14 @@ public class TicketService {
 
         User user = userService.getUserById(ticketRequest.userId());
         Movie movie = movieService.getMovieById(ticketRequest.movieId());
-        Seat seat = seatService.getSeatByMovieAndMovieTime(
+        Seat seat = seatQueryService.getSeatByMovieAndMovieTime(
                 movie,
                 ticketRequest.movieTime().toMovieTime()
         );
         Ticket ticket = new Ticket(user, movie, ticketRequest);
         ticket.setRoomSeats(seat);
 
-        seatService.saveSeatWithTickets(ticket);
+        seatTicketService.saveSeatWithTickets(ticket);
         ticketRepository.save(ticket);
 
         return new TicketResponse(ticket);
@@ -66,7 +68,7 @@ public class TicketService {
     public TicketResponse updateTicket(TicketRequestUpdate ticketReqUpdate) {
 
         Movie movie = movieService.getMovieById(ticketReqUpdate.movieId());
-        Seat seat = seatService.getSeatByMovieAndMovieTime(
+        Seat seat = seatQueryService.getSeatByMovieAndMovieTime(
                 movie,
                 ticketReqUpdate.movieTime().toMovieTime()
         );
@@ -76,19 +78,19 @@ public class TicketService {
         ticketById.setRoomSeats(seat);
         ticketById.setSeat(ticketReqUpdate.seat());
 
-        seatService.updateAndRemoveTicketFromSeat(ticketById, "update");
+        seatTicketService.updateAndRemoveTicketFromSeat(ticketById, "update");
         return new TicketResponse(ticketById);
     }
 
     public String deleteTicketById(Long id) {
         Ticket ticketById = getTicketById(id);
-        seatService.updateAndRemoveTicketFromSeat(ticketById, "delete");
+        seatTicketService.updateAndRemoveTicketFromSeat(ticketById, "delete");
         ticketRepository.delete(ticketById);
         return "Ticket was deleted successfully";
     }
 
     public String deleteAllTickets() {
-        seatService.deleteAllTicketsFromSeat();
+        seatTicketService.deleteAllTicketsFromSeat();
         ticketRepository.deleteAll();
         return "All Tickets was deleted";
     }
