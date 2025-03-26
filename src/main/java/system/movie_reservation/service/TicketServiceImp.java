@@ -44,6 +44,7 @@ public class TicketServiceImp implements TicketUsesCases {
     }
 
     @Transactional
+    @Override
     public TicketResponse createTicket(TicketRequest ticketRequest) {
 
         TicketValidationHandler.createMethodEmptyFieldVerifier(ticketRequest);
@@ -62,6 +63,7 @@ public class TicketServiceImp implements TicketUsesCases {
         return new TicketResponse(ticket);
     }
 
+    @Override
     public List<TicketResponse> geAllTickets() {
 
         return ticketRepository.findAll().stream()
@@ -69,6 +71,7 @@ public class TicketServiceImp implements TicketUsesCases {
                 .toList();
     }
 
+    @Override
     @Transactional
     public TicketResponse updateTicket(TicketRequestUpdate ticketReqUpdate) {
 
@@ -78,23 +81,31 @@ public class TicketServiceImp implements TicketUsesCases {
                 movie,
                 ticketReqUpdate.movieTime().toMovieTime()
         );
+        Ticket oldTicket = getTicketById(ticketReqUpdate.id());
 
-        Ticket ticketById = getTicketById(ticketReqUpdate.id());
-        ticketById.setMovie(movie);
-        ticketById.setRoomSeats(seat);
-        ticketById.setSeat(ticketReqUpdate.seat());
+        Ticket newTicket = new Ticket(oldTicket.getUser() ,movie, seat, ticketReqUpdate);
 
-        seatTicketService.updateAndRemoveTicketFromSeat(ticketById, "update");
-        return new TicketResponse(ticketById);
+        seatTicketService.updateAndRemoveTicketFromSeat(
+                oldTicket,
+                newTicket,
+                "update");
+        ticketRepository.save(newTicket);
+
+        return new TicketResponse(newTicket);
     }
 
+    @Override
     public String deleteTicketById(Long id) {
         Ticket ticketById = getTicketById(id);
-
+        seatTicketService.updateAndRemoveTicketFromSeat(
+                ticketById,
+                null,
+                "delete");
         ticketRepository.delete(ticketById);
         return "Ticket was deleted successfully";
     }
 
+    @Override
     public String deleteAllTickets() {
         if(ticketRepository.findAll().isEmpty())
             return "No tickets registered.";

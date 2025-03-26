@@ -32,24 +32,23 @@ public class SeatTicketService {
         seatRepository.save(roomSeats);
     }
 
-    void updateAndRemoveTicketFromSeat(Ticket ticket, String methodHttp){
+    void updateAndRemoveTicketFromSeat(Ticket oldTicket,
+                                       Ticket newTicket,
+                                       String methodHttp){
 
-        Seat roomSeats = ticket.getRoomSeats();
+        Seat roomSeats = oldTicket.getRoomSeats();
         List<SeatTicket> seatTickets = roomSeats.getSeatTicket();
 
-        for (SeatTicket seatTicket : seatTickets) {
+        seatTickets.stream()
+                .filter(st -> st.getTicketValue() != null &&
+                        st.getTicketValue().equals(oldTicket))
+                .forEach(st -> st.setTicketValue(null));
 
-            if(seatTicket.getTicketValue() != null)
-                if(seatTicket.getTicketValue().equals(ticket))
-                    seatTicket.setTicketValue(null);
-        }
+        roomSeats.setSeatTicket(seatTickets);
+        seatRepository.save(roomSeats);
+
         if (methodHttp.equals("update"))
-            saveSeatWithTickets(ticket);
-
-        if (methodHttp.equals("delete")) {
-            roomSeats.setSeatTicket(seatTickets);
-            seatRepository.save(roomSeats);
-        }
+            saveSeatWithTickets(newTicket);
     }
 
     void deleteAllTicketsFromSeat(){
