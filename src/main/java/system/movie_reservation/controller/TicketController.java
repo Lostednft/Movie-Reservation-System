@@ -5,44 +5,45 @@ import org.springframework.web.bind.annotation.*;
 import system.movie_reservation.model.ticket.TicketRequest;
 import system.movie_reservation.model.ticket.TicketRequestUpdate;
 import system.movie_reservation.service.TicketServiceImp;
+import system.movie_reservation.service.usescases.TicketUsesCases;
 
 @RestController
 @RequestMapping("ticket")
 public class TicketController {
 
-    private final TicketServiceImp ticketServiceImp;
+    private final TicketUsesCases ticketUsesCases;
 
-    public TicketController(TicketServiceImp ticketServiceImp) {
-        this.ticketServiceImp = ticketServiceImp;
+    public TicketController(TicketServiceImp ticketUsesCases) {
+        this.ticketUsesCases = ticketUsesCases;
     }
 
     @PostMapping
     public ResponseEntity saveTicket(@RequestBody TicketRequest ticket){
-        return ResponseEntity.ok(ticketServiceImp.createTicket(ticket));
+        return ResponseEntity.ok(ticketUsesCases.createTicket(ticket));
     }
 
     @GetMapping
     public ResponseEntity getAllTickets(){
-        return ResponseEntity.ok(ticketServiceImp.geAllTickets());
+        return ResponseEntity.ok(ticketUsesCases.geAllTickets());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getTicketById(@PathVariable Long id){
-        return ResponseEntity.ok(ticketServiceImp.getTicketById(id));
+        return ResponseEntity.ok(ticketUsesCases.getTicketById(id));
     }
 
     @PutMapping
     public ResponseEntity updateTicket(@RequestBody TicketRequestUpdate ticketReqUpdate){
-        return ResponseEntity.ok(ticketServiceImp.updateTicket(ticketReqUpdate));
+        return ResponseEntity.ok(ticketUsesCases.updateTicket(ticketReqUpdate));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteTicketById(@PathVariable Long id){
-        return ResponseEntity.ok(ticketServiceImp.deleteTicketById(id));
+        return ResponseEntity.ok(ticketUsesCases.deleteTicketById(id));
     }
 
     @DeleteMapping
     public ResponseEntity deleteAllTickets(){
-        return ResponseEntity.ok(ticketServiceImp.deleteAllTickets());
+        return ResponseEntity.ok(ticketUsesCases.deleteAllTickets());
     }
 }
