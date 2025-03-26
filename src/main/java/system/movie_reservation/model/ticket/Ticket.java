@@ -44,4 +44,14 @@ public class Ticket {
         this.seat = ticketRequest.seat();
         this.movieTime = ticketRequest.movieTime().toMovieTime();
     }
+
+
+    public Ticket(User user, Movie movie,Seat room, TicketRequestUpdate ticketReqUpdate) {
+        this.id = ticketReqUpdate.id();
+        this.user = user;
+        this.movie = movie;
+        this.movieTime = ticketReqUpdate.movieTime().toMovieTime();
+        this.seat = ticketReqUpdate.seat();
+        this.roomSeats = room;
+    }
 }
