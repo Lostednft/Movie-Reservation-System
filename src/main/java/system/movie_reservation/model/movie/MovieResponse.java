@@ -1,7 +1,7 @@
 package system.movie_reservation.model.movie;
 
 import system.movie_reservation.model.movie.EnumLoader.Category;
-import system.movie_reservation.model.seat.Seat;
+import system.movie_reservation.model.seat.MovieTheater;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public record MovieResponse(String id,
             movie.getDescription(),
             movie.getPosterUrl(),
             movie.getDuration(),
-            movie.getRooms().stream().map(Seat::getId).toList(),
+            movie.getRooms().stream().map(MovieTheater::getId).toList(),
             movie.getCategories().stream().map(Category::getCategory).toList()
         );
     }

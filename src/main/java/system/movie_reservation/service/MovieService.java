@@ -16,14 +16,14 @@ import java.util.NoSuchElementException;
 public class MovieService {
 
     private final MovieRepository movieRepository;
-    private final SeatQueryService seatQueryService;
+    private final MovieTheaterService movieTheaterService;
     private final SeatTicketService seatTicketService;
 
     public MovieService(MovieRepository movieRepository,
-                        SeatQueryService seatQueryService,
+                        MovieTheaterService movieTheaterService,
                         SeatTicketService seatTicketService) {
         this.movieRepository = movieRepository;
-        this.seatQueryService = seatQueryService;
+        this.movieTheaterService = movieTheaterService;
         this.seatTicketService = seatTicketService;
     }
 
@@ -37,7 +37,7 @@ public class MovieService {
     public MovieResponse createMovie(MovieRequest movieRequest){
         Movie movie = new Movie(movieRequest);
         MovieValidationHandler.checkFieldsEmpty(movie);
-        movie.setRooms(seatQueryService.createSeatsToMovie(movie));
+        movie.setRooms(movieTheaterService.createSeatsToMovie(movie));
         movieRepository.save(movie);
         return new MovieResponse(movie);
     }

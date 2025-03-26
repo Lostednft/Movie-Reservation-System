@@ -19,7 +19,7 @@ public record TicketResponse(Long id,
                 ticket.getMovieTime().getStartTime(),
                 ticket.getMovieTime().getEndTime(),
                 ticket.getSeat(),
-                ticket.getRoomSeats().getId()
+                ticket.getMovieTheater().getId()
         );
     }
 }

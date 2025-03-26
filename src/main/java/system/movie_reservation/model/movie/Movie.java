@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import system.movie_reservation.model.movie.EnumLoader.Category;
-import system.movie_reservation.model.seat.Seat;
+import system.movie_reservation.model.seat.MovieTheater;
 import system.movie_reservation.model.ticket.Ticket;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class Movie {
     private List<Ticket> tickets = new ArrayList<>();
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Seat> rooms;
+    private List<MovieTheater> rooms;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "movie_categories_tb",

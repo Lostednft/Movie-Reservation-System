@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import system.movie_reservation.exception.TicketValidationHandler;
 import system.movie_reservation.model.movie.Movie;
-import system.movie_reservation.model.seat.Seat;
+import system.movie_reservation.model.seat.MovieTheater;
 import system.movie_reservation.model.ticket.Ticket;
 import system.movie_reservation.model.user.User;
 import system.movie_reservation.model.ticket.TicketRequest;
@@ -22,18 +22,18 @@ public class TicketServiceImp implements TicketUsesCases {
     private final TicketRepository ticketRepository;
     private final UserService userService;
     private final MovieService movieService;
-    private final SeatQueryService seatQueryService;
+    private final MovieTheaterService movieTheaterService;
     private final SeatTicketService seatTicketService;
 
     public TicketServiceImp(TicketRepository ticketRepository,
                             UserService userService,
                             MovieService movieService,
-                            SeatQueryService seatQueryService,
+                            MovieTheaterService movieTheaterService,
                             SeatTicketService seatTicketService) {
         this.ticketRepository = ticketRepository;
         this.userService = userService;
         this.movieService = movieService;
-        this.seatQueryService = seatQueryService;
+        this.movieTheaterService = movieTheaterService;
         this.seatTicketService = seatTicketService;
     }
 
@@ -50,12 +50,12 @@ public class TicketServiceImp implements TicketUsesCases {
         TicketValidationHandler.createMethodEmptyFieldVerifier(ticketRequest);
         User user = userService.getUserById(ticketRequest.userId());
         Movie movie = movieService.getMovieById(ticketRequest.movieId());
-        Seat seat = seatQueryService.getSeatByMovieAndMovieTime(
+        MovieTheater movieTheater = movieTheaterService.getSeatByMovieAndMovieTime(
                 movie,
                 ticketRequest.movieTime().toMovieTime()
         );
         Ticket ticket = new Ticket(user, movie, ticketRequest);
-        ticket.setRoomSeats(seat);
+        ticket.setMovieTheater(movieTheater);
 
         seatTicketService.saveSeatWithTickets(ticket);
         ticketRepository.save(ticket);
@@ -77,13 +77,12 @@ public class TicketServiceImp implements TicketUsesCases {
 
         TicketValidationHandler.updateMethodEmptyFieldVerifier(ticketReqUpdate);
         Movie movie = movieService.getMovieById(ticketReqUpdate.movieId());
-        Seat seat = seatQueryService.getSeatByMovieAndMovieTime(
+        MovieTheater movieTheater = movieTheaterService.getSeatByMovieAndMovieTime(
                 movie,
                 ticketReqUpdate.movieTime().toMovieTime()
         );
         Ticket oldTicket = getTicketById(ticketReqUpdate.id());
-
-        Ticket newTicket = new Ticket(oldTicket.getUser() ,movie, seat, ticketReqUpdate);
+        Ticket newTicket = new Ticket(oldTicket.getUser() ,movie, movieTheater, ticketReqUpdate);
 
         seatTicketService.updateAndRemoveTicketFromSeat(
                 oldTicket,

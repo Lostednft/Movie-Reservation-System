@@ -1,25 +1,25 @@
 package system.movie_reservation.service;
 
 import org.springframework.stereotype.Service;
-import system.movie_reservation.model.seat.Seat;
+import system.movie_reservation.model.seat.MovieTheater;
 import system.movie_reservation.model.seat.SeatTicket;
 import system.movie_reservation.model.ticket.Ticket;
-import system.movie_reservation.repository.SeatRepository;
+import system.movie_reservation.repository.MovieTheaterRepository;
 
 import java.util.List;
 
 @Service
 public class SeatTicketService {
 
-    private final SeatRepository seatRepository;
+    private final MovieTheaterRepository movieTheaterRepository;
 
-    public SeatTicketService(SeatRepository seatRepository) {
-        this.seatRepository = seatRepository;
+    public SeatTicketService(MovieTheaterRepository movieTheaterRepository) {
+        this.movieTheaterRepository = movieTheaterRepository;
     }
 
     void saveSeatWithTickets(Ticket ticket){
 
-        Seat roomSeats = ticket.getRoomSeats();
+        MovieTheater roomSeats = ticket.getMovieTheater();
         List<SeatTicket> seatTickets = roomSeats.getSeatTicket();
 
         for (String seat : ticket.getSeat()) {
@@ -29,14 +29,14 @@ public class SeatTicketService {
                     .ifPresent(st -> st.setTicketValue(ticket));
         }
         roomSeats.setSeatTicket(seatTickets);
-        seatRepository.save(roomSeats);
+        movieTheaterRepository.save(roomSeats);
     }
 
     void updateAndRemoveTicketFromSeat(Ticket oldTicket,
                                        Ticket newTicket,
                                        String methodHttp){
 
-        Seat roomSeats = oldTicket.getRoomSeats();
+        MovieTheater roomSeats = oldTicket.getMovieTheater();
         List<SeatTicket> seatTickets = roomSeats.getSeatTicket();
 
         seatTickets.stream()
@@ -45,20 +45,20 @@ public class SeatTicketService {
                 .forEach(st -> st.setTicketValue(null));
 
         roomSeats.setSeatTicket(seatTickets);
-        seatRepository.save(roomSeats);
+        movieTheaterRepository.save(roomSeats);
 
         if (methodHttp.equals("update"))
             saveSeatWithTickets(newTicket);
     }
 
     void deleteAllTicketsFromSeat(){
-        List<Seat> allSeat = seatRepository.findAll();
+        List<MovieTheater> allMovieTheater = movieTheaterRepository.findAll();
 
-        allSeat.forEach(stTicket ->
+        allMovieTheater.forEach(stTicket ->
                 stTicket.getSeatTicket().forEach(value ->
                         value.setTicketValue(null)
                 )
         );
-        seatRepository.saveAll(allSeat);
+        movieTheaterRepository.saveAll(allMovieTheater);
     }
 }

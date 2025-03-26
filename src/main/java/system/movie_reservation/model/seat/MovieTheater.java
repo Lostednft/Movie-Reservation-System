@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "seats_tb")
+@Table(name = "movie_theater_tb")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Seat {
+public class MovieTheater {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -29,10 +29,10 @@ public class Seat {
     @ManyToOne(fetch = FetchType.EAGER)
     private MovieTime movieTime;
 
-    @OneToMany(mappedBy = "seat", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "movieTheater", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SeatTicket> seatTicket = new ArrayList<>();
 
-    public Seat(Movie movie, MovieTime movieTime) {
+    public MovieTheater(Movie movie, MovieTime movieTime) {
         this.movie = movie;
         this.movieTime = movieTime;
         this.seatTicket = constructorSeats();

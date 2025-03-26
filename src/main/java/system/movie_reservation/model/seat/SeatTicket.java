@@ -26,12 +26,12 @@ public class SeatTicket {
     private Ticket ticketValue;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seat_id")
-    private Seat seat;
+    @JoinColumn(name = "movie_theater_id")
+    private MovieTheater movieTheater;
 
-    public SeatTicket(String seatKey, Ticket ticket, Seat seat) {
+    public SeatTicket(String seatKey, Ticket ticket, MovieTheater movieTheater) {
         this.seatKey = seatKey;
         this.ticketValue = ticket;
-        this.seat = seat;
+        this.movieTheater = movieTheater;
     }
 }

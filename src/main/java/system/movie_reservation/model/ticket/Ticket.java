@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import system.movie_reservation.model.movie.EnumLoader.MovieTime;
 import system.movie_reservation.model.movie.Movie;
-import system.movie_reservation.model.seat.Seat;
+import system.movie_reservation.model.seat.MovieTheater;
 import system.movie_reservation.model.user.User;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class Ticket {
     private List<String> seat;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Seat roomSeats;
+    private MovieTheater movieTheater;
 
     public Ticket(User user, Movie movie, TicketRequest ticketRequest) {
         this.user = user;
@@ -46,12 +46,12 @@ public class Ticket {
     }
 
 
-    public Ticket(User user, Movie movie,Seat room, TicketRequestUpdate ticketReqUpdate) {
+    public Ticket(User user, Movie movie, MovieTheater room, TicketRequestUpdate ticketReqUpdate) {
         this.id = ticketReqUpdate.id();
         this.user = user;
         this.movie = movie;
         this.movieTime = ticketReqUpdate.movieTime().toMovieTime();
         this.seat = ticketReqUpdate.seat();
-        this.roomSeats = room;
+        this.movieTheater = room;
     }
 }
