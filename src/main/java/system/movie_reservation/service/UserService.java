@@ -8,12 +8,13 @@ import system.movie_reservation.model.user.UserRequestUpdate;
 import system.movie_reservation.model.user.UserRequest;
 import system.movie_reservation.model.user.UserResponse;
 import system.movie_reservation.repository.UserRepository;
+import system.movie_reservation.service.usescases.UserUsesCases;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class UserService {
+public class UserService implements UserUsesCases {
 
     private final UserRepository userRepository;
 
@@ -21,11 +22,13 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @Override
     public User getUserById(String id){
         return userRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException("No User founded with this ID."));
     }
 
+    @Override
     public UserResponse createUser(UserRequest user){
 
         User entity = new User(user);
@@ -40,12 +43,14 @@ public class UserService {
         return new UserResponse(entity);
     }
 
+    @Override
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(UserResponse::new)
                 .toList();
     }
 
+    @Override
     @Transactional
     public UserResponse updateUserById(UserRequestUpdate userReqUpdate) {
 
@@ -72,15 +77,15 @@ public class UserService {
         return new UserResponse(userUpdated);
     }
 
+    @Override
     public String deleteUserById(String id){
         getUserById(id);
         userRepository.deleteById(id);
-
         return "User deleted successfully";
     }
 
+    @Override
     public String removeAllUsers() {
-
         if(userRepository.findAll().isEmpty())
             return "No users registered.";
 

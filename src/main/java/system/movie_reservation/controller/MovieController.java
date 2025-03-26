@@ -5,49 +5,50 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import system.movie_reservation.model.movie.MovieRequest;
 import system.movie_reservation.model.movie.MovieRequestUpdate;
-import system.movie_reservation.service.MovieService;
+import system.movie_reservation.service.usescases.MovieUsesCases;
 
 @RestController
 @RequestMapping("movies")
 public class MovieController {
 
-    public final MovieService movieService;
+    public final MovieUsesCases movieUsesCases;
 
-    public MovieController(MovieService movieService) {
-        this.movieService = movieService;
+    public MovieController(MovieUsesCases movieUsesCases) {
+        this.movieUsesCases = movieUsesCases;
     }
+
 
     @PostMapping("/create")
     public ResponseEntity createMovie(@RequestBody MovieRequest movie){
-        return ResponseEntity.ok(movieService.createMovie(movie));
+        return ResponseEntity.ok(movieUsesCases.createMovie(movie));
     }
 
     @PutMapping("/update")
     public ResponseEntity updateMovie(@RequestBody MovieRequestUpdate movieRequestUpdate){
-        return ResponseEntity.status(HttpStatus.OK).body(movieService.updateMovie(movieRequestUpdate));
+        return ResponseEntity.status(HttpStatus.OK).body(movieUsesCases.updateMovie(movieRequestUpdate));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getMovieById(@PathVariable String id){
-        return ResponseEntity.ok(movieService.getMovieById(id));
+        return ResponseEntity.ok(movieUsesCases.getMovieById(id));
     }
 
     @GetMapping
     public ResponseEntity getAlLMovies(){
-        if(movieService.findAllMovies().isEmpty())
+        if(movieUsesCases.findAllMovies().isEmpty())
             return ResponseEntity.status(HttpStatus.OK).body("No movie registered.");
-        return ResponseEntity.ok(movieService.findAllMovies());
+        return ResponseEntity.ok(movieUsesCases.findAllMovies());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteMovieById(@PathVariable String id){
-        movieService.removeMovieById(id);
+        movieUsesCases.removeMovieById(id);
         return ResponseEntity.ok().body("Movie deleted successfully.");
     }
 
     @DeleteMapping
     public ResponseEntity deleteAllMovies(){
-        movieService.removeAllMovies();
+        movieUsesCases.removeAllMovies();
         return ResponseEntity.ok("All movies was removed successfully");
     }
 }

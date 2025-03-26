@@ -8,12 +8,13 @@ import system.movie_reservation.model.movie.MovieRequest;
 import system.movie_reservation.model.movie.MovieRequestUpdate;
 import system.movie_reservation.model.movie.MovieResponse;
 import system.movie_reservation.repository.MovieRepository;
+import system.movie_reservation.service.usescases.MovieUsesCases;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class MovieService {
+public class MovieService implements MovieUsesCases {
 
     private final MovieRepository movieRepository;
     private final MovieTheaterService movieTheaterService;
@@ -27,12 +28,13 @@ public class MovieService {
         this.seatTicketService = seatTicketService;
     }
 
-
+    @Override
     public Movie getMovieById(String id){
         return movieRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException("No movie with this ID was found."));
     }
 
+    @Override
     @Transactional
     public MovieResponse createMovie(MovieRequest movieRequest){
         Movie movie = new Movie(movieRequest);
@@ -42,6 +44,7 @@ public class MovieService {
         return new MovieResponse(movie);
     }
 
+    @Override
     @Transactional
     public MovieResponse updateMovie(MovieRequestUpdate movieReqUpdate){
         Movie movieSavedDB = getMovieById(movieReqUpdate.id());
@@ -53,6 +56,7 @@ public class MovieService {
         return new MovieResponse(movieUpdated);
     }
 
+    @Override
     public List<MovieResponse> findAllMovies() {
         List<Movie> movieList = movieRepository.findAll();
 
@@ -61,12 +65,14 @@ public class MovieService {
                 .toList();
     }
 
+    @Override
     public String removeMovieById(String id){
         Movie movie = getMovieById(id);
         movieRepository.delete(movie);
         return "Movie deleted successfully";
     }
 
+    @Override
     public String removeAllMovies(){
         if(movieRepository.findAll().isEmpty())
             return "No movies registered.";

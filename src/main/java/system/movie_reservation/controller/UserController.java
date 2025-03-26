@@ -6,46 +6,45 @@ import org.springframework.web.bind.annotation.*;
 import system.movie_reservation.model.user.UserRequestUpdate;
 import system.movie_reservation.model.user.UserRequest;
 import system.movie_reservation.service.UserService;
+import system.movie_reservation.service.usescases.UserUsesCases;
 
 @RestController
 @RequestMapping("auth")
 public class UserController {
 
-    private final UserService userService;
+    private final UserUsesCases userUsesCases;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserService userUsesCases) {
+        this.userUsesCases = userUsesCases;
     }
 
     @PostMapping
     public ResponseEntity saveUser(@RequestBody UserRequest user){
-        return ResponseEntity.ok(userService.createUser(user));
+        return ResponseEntity.ok(userUsesCases.createUser(user));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getUserById(@PathVariable String id){
-        return ResponseEntity.ok(userService.getUserById(id));
+        return ResponseEntity.ok(userUsesCases.getUserById(id));
     }
 
     @GetMapping("/users")
     public ResponseEntity getAllUsers(){
-        return ResponseEntity.ok(userService.getAllUsers());
+        return ResponseEntity.ok(userUsesCases.getAllUsers());
     }
 
     @PutMapping
     public ResponseEntity updateUserById(@RequestBody UserRequestUpdate user){
-        return ResponseEntity.ok(userService.updateUserById(user));
+        return ResponseEntity.ok(userUsesCases.updateUserById(user));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteUserById(@PathVariable String id){
-
-        return ResponseEntity.ok(userService.deleteUserById(id));
+        return ResponseEntity.ok(userUsesCases.deleteUserById(id));
     }
 
     @DeleteMapping
     public ResponseEntity deleteAllUsers(){
-
-        return ResponseEntity.ok(userService.removeAllUsers());
+        return ResponseEntity.ok(userUsesCases.removeAllUsers());
     }
 }
