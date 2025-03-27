@@ -14,15 +14,15 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class MovieService implements MovieUsesCases {
+public class MovieServiceImp implements MovieUsesCases {
 
     private final MovieRepository movieRepository;
     private final MovieTheaterService movieTheaterService;
     private final SeatTicketService seatTicketService;
 
-    public MovieService(MovieRepository movieRepository,
-                        MovieTheaterService movieTheaterService,
-                        SeatTicketService seatTicketService) {
+    public MovieServiceImp(MovieRepository movieRepository,
+                           MovieTheaterService movieTheaterService,
+                           SeatTicketService seatTicketService) {
         this.movieRepository = movieRepository;
         this.movieTheaterService = movieTheaterService;
         this.seatTicketService = seatTicketService;

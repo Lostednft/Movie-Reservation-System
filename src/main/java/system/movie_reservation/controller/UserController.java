@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import system.movie_reservation.model.user.UserRequestUpdate;
 import system.movie_reservation.model.user.UserRequest;
-import system.movie_reservation.service.UserService;
+import system.movie_reservation.service.UserServiceImp;
 import system.movie_reservation.service.usescases.UserUsesCases;
 
 @RestController
@@ -14,7 +14,7 @@ public class UserController {
 
     private final UserUsesCases userUsesCases;
 
-    public UserController(UserService userUsesCases) {
+    public UserController(UserServiceImp userUsesCases) {
         this.userUsesCases = userUsesCases;
     }
 

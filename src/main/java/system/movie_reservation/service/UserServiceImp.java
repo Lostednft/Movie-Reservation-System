@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class UserService implements UserUsesCases {
+public class UserServiceImp implements UserUsesCases {
 
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserServiceImp(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -30,7 +30,6 @@ public class UserService implements UserUsesCases {
 
     @Override
     public UserResponse createUser(UserRequest user){
-
         User entity = new User(user);
         UserValidationHandler.checkEmptyFields(entity);
 
@@ -53,7 +52,6 @@ public class UserService implements UserUsesCases {
     @Override
     @Transactional
     public UserResponse updateUserById(UserRequestUpdate userReqUpdate) {
-
         User userById = getUserById(userReqUpdate.id());
         User userUpdated = new User(userReqUpdate);
         UserValidationHandler.checkEmptyFields(userUpdated);
