@@ -20,19 +20,19 @@ import java.util.NoSuchElementException;
 public class TicketServiceImp implements TicketUsesCases {
 
     private final TicketRepository ticketRepository;
-    private final UserService userService;
-    private final MovieService movieService;
+    private final UserServiceImp userServiceImp;
+    private final MovieServiceImp movieServiceImp;
     private final MovieTheaterService movieTheaterService;
     private final SeatTicketService seatTicketService;
 
     public TicketServiceImp(TicketRepository ticketRepository,
-                            UserService userService,
-                            MovieService movieService,
+                            UserServiceImp userServiceImp,
+                            MovieServiceImp movieServiceImp,
                             MovieTheaterService movieTheaterService,
                             SeatTicketService seatTicketService) {
         this.ticketRepository = ticketRepository;
-        this.userService = userService;
-        this.movieService = movieService;
+        this.userServiceImp = userServiceImp;
+        this.movieServiceImp = movieServiceImp;
         this.movieTheaterService = movieTheaterService;
         this.seatTicketService = seatTicketService;
     }
@@ -48,8 +48,8 @@ public class TicketServiceImp implements TicketUsesCases {
     public TicketResponse createTicket(TicketRequest ticketRequest) {
 
         TicketValidationHandler.createMethodEmptyFieldVerifier(ticketRequest);
-        User user = userService.getUserById(ticketRequest.userId());
-        Movie movie = movieService.getMovieById(ticketRequest.movieId());
+        User user = userServiceImp.getUserById(ticketRequest.userId());
+        Movie movie = movieServiceImp.getMovieById(ticketRequest.movieId());
         MovieTheater movieTheater = movieTheaterService.getSeatByMovieAndMovieTime(
                 movie,
                 ticketRequest.movieTime().toMovieTime()
@@ -76,18 +76,21 @@ public class TicketServiceImp implements TicketUsesCases {
     public TicketResponse updateTicket(TicketRequestUpdate ticketReqUpdate) {
 
         TicketValidationHandler.updateMethodEmptyFieldVerifier(ticketReqUpdate);
-        Movie movie = movieService.getMovieById(ticketReqUpdate.movieId());
+        Movie movie = movieServiceImp.getMovieById(ticketReqUpdate.movieId());
         MovieTheater movieTheater = movieTheaterService.getSeatByMovieAndMovieTime(
                 movie,
                 ticketReqUpdate.movieTime().toMovieTime()
         );
         Ticket oldTicket = getTicketById(ticketReqUpdate.id());
-        Ticket newTicket = new Ticket(oldTicket.getUser() ,movie, movieTheater, ticketReqUpdate);
 
-        seatTicketService.updateAndRemoveTicketFromSeat(
-                oldTicket,
-                newTicket,
-                "update");
+        Ticket newTicket = new Ticket(
+                oldTicket.getUser(),
+                movie,
+                movieTheater,
+                ticketReqUpdate
+        );
+
+        seatTicketService.updateTicketFromSeat(oldTicket, newTicket);
         ticketRepository.save(newTicket);
 
         return new TicketResponse(newTicket);
@@ -96,10 +99,7 @@ public class TicketServiceImp implements TicketUsesCases {
     @Override
     public String deleteTicketById(Long id) {
         Ticket ticketById = getTicketById(id);
-        seatTicketService.updateAndRemoveTicketFromSeat(
-                ticketById,
-                null,
-                "delete");
+        seatTicketService.removeTicketFromSeat(ticketById);
         ticketRepository.delete(ticketById);
         return "Ticket was deleted successfully";
     }

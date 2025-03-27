@@ -7,6 +7,7 @@ import system.movie_reservation.model.ticket.Ticket;
 import system.movie_reservation.repository.MovieTheaterRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class SeatTicketService {
@@ -18,37 +19,22 @@ public class SeatTicketService {
     }
 
     void saveSeatWithTickets(Ticket ticket){
-
-        MovieTheater roomSeats = ticket.getMovieTheater();
-        List<SeatTicket> seatTickets = roomSeats.getSeatTicket();
-
-        for (String seat : ticket.getSeat()) {
-
-            seatTickets.stream().filter(n -> n.getSeatKey().equals(seat))
-                    .findFirst()
-                    .ifPresent(st -> st.setTicketValue(ticket));
-        }
-        roomSeats.setSeatTicket(seatTickets);
-        movieTheaterRepository.save(roomSeats);
+        verifySeatsAvailable(ticket);
+        MovieTheater movieTheater = insertSelectedSeatsTicket(ticket);
+        movieTheaterRepository.save(movieTheater);
     }
 
-    void updateAndRemoveTicketFromSeat(Ticket oldTicket,
-                                       Ticket newTicket,
-                                       String methodHttp){
+    void updateTicketFromSeat(Ticket oldTicket, Ticket newTicket){
+        verifySeatsAvailable(newTicket);
+        MovieTheater movieTheater = removeSelectedSeatsTicket(oldTicket);
+        newTicket.setMovieTheater(movieTheater);
+        MovieTheater movieTheaterInserted = insertSelectedSeatsTicket(newTicket);
+        movieTheaterRepository.save(movieTheaterInserted);
+    }
 
-        MovieTheater roomSeats = oldTicket.getMovieTheater();
-        List<SeatTicket> seatTickets = roomSeats.getSeatTicket();
-
-        seatTickets.stream()
-                .filter(st -> st.getTicketValue() != null &&
-                        st.getTicketValue().equals(oldTicket))
-                .forEach(st -> st.setTicketValue(null));
-
-        roomSeats.setSeatTicket(seatTickets);
-        movieTheaterRepository.save(roomSeats);
-
-        if (methodHttp.equals("update"))
-            saveSeatWithTickets(newTicket);
+    void removeTicketFromSeat(Ticket ticket){
+        MovieTheater movieTheater = removeSelectedSeatsTicket(ticket);
+        movieTheaterRepository.save(movieTheater);
     }
 
     void deleteAllTicketsFromSeat(){
@@ -60,5 +46,43 @@ public class SeatTicketService {
                 )
         );
         movieTheaterRepository.saveAll(allMovieTheater);
+    }
+
+    private void verifySeatsAvailable(Ticket ticket){
+        List<SeatTicket> seatTicketList = ticket.getMovieTheater().getSeatTicket();
+
+        for (String seat : ticket.getSeat()) {
+            for (SeatTicket seatTicket1 : seatTicketList) {
+
+                if(seatTicket1.getSeatKey().equals(seat) && seatTicket1.getTicketValue() != null)
+                    throw new NoSuchElementException("Esse assento nao esta disponivel!");
+            }
+        }
+    }
+
+    private MovieTheater insertSelectedSeatsTicket(Ticket ticket){
+        MovieTheater movieTheater = ticket.getMovieTheater();
+        List<SeatTicket> seatTickets = movieTheater.getSeatTicket();
+
+        for (String seat : ticket.getSeat()) {
+            seatTickets.stream().filter(n -> n.getSeatKey().equals(seat))
+                    .findFirst()
+                    .ifPresent(st -> st.setTicketValue(ticket));
+        }
+        movieTheater.setSeatTicket(seatTickets);
+        return movieTheater;
+    }
+
+    private MovieTheater removeSelectedSeatsTicket(Ticket ticket){
+        MovieTheater movieTheater = ticket.getMovieTheater();
+        List<SeatTicket> seatTickets = movieTheater.getSeatTicket();
+
+        seatTickets.stream()
+                .filter(st -> st.getTicketValue() != null &&
+                        st.getTicketValue().equals(ticket))
+                .forEach(st -> st.setTicketValue(null));
+
+        movieTheater.setSeatTicket(seatTickets);
+        return movieTheater;
     }
 }
