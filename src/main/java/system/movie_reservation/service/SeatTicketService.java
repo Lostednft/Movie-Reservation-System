@@ -7,7 +7,9 @@ import system.movie_reservation.model.ticket.Ticket;
 import system.movie_reservation.repository.MovieTheaterRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class SeatTicketService {
@@ -50,14 +52,18 @@ public class SeatTicketService {
 
     private void verifySeatsAvailable(Ticket ticket){
         List<SeatTicket> seatTicketList = ticket.getMovieTheater().getSeatTicket();
+        Map<String,SeatTicket> seatTicketMap = seatTicketList.stream()
+                .collect(Collectors.toMap(SeatTicket::getSeatKey,seatTicket -> seatTicket));
+
+        StringBuilder seatsUnavailable = new StringBuilder();
 
         for (String seat : ticket.getSeat()) {
-            for (SeatTicket seatTicket1 : seatTicketList) {
 
-                if(seatTicket1.getSeatKey().equals(seat) && seatTicket1.getTicketValue() != null)
-                    throw new NoSuchElementException("Esse assento nao esta disponivel!");
-            }
+            if(seatTicketMap.containsKey(seat) && seatTicketMap.get(seat).getTicketValue() != null)
+                    seatsUnavailable.append(seat).append(" ");
         }
+        if (!seatsUnavailable.isEmpty())
+            throw new NoSuchElementException(seatsUnavailable + "Seats are no available");
     }
 
     private MovieTheater insertSelectedSeatsTicket(Ticket ticket){
