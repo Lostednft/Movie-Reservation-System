@@ -5,9 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import system.movie_reservation.model.user.Enum.UserRole;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "user_tb")
@@ -15,7 +20,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -43,5 +48,12 @@ public class User {
         this.email = userReqUpdate.email();
         this.dateOfBirth = userReqUpdate.dateOfBirth();
         this.role = userReqUpdate.role();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(role.equals(UserRole.ADMIN))
+           return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 }
