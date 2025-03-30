@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import system.movie_reservation.model.user.UserLogin;
 import system.movie_reservation.model.user.UserRequest;
+import system.movie_reservation.service.AuthService;
 import system.movie_reservation.service.usescases.UserUsesCases;
 
 @RestController
@@ -15,9 +16,12 @@ import system.movie_reservation.service.usescases.UserUsesCases;
 public class AuthenticationController {
 
     private final UserUsesCases userUsesCases;
+    private final AuthService authService;
 
-    public AuthenticationController(UserUsesCases userUsesCases) {
+    public AuthenticationController(UserUsesCases userUsesCases,
+                                    AuthService authService) {
         this.userUsesCases = userUsesCases;
+        this.authService = authService;
     }
 
     @PostMapping("/register")
@@ -27,6 +31,6 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity loginUser(@RequestBody UserLogin user){
-        return ResponseEntity.ok(userUsesCases.loginUserValidation(user));
+        return ResponseEntity.ok(authService.authenticate(user));
     }
 }
