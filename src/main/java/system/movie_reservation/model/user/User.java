@@ -38,7 +38,7 @@ public class User implements UserDetails {
         this.password = userRequest.password();
         this.email = userRequest.email();
         this.dateOfBirth = userRequest.dateOfBirth();
-        this.role = userRequest.role();
+        this.role = UserRole.USER;
     }
 
     public User(UserRequestUpdate userReqUpdate) {
