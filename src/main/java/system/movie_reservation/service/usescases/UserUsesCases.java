@@ -11,5 +11,4 @@ public interface UserUsesCases {
     List<UserResponse> getAllUsers();
     UserResponse updateUserById(UserRequestUpdate userReqUpdate);
     String deleteUserById(String id);
-    String removeAllUsers();
 }

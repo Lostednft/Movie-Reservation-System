@@ -69,14 +69,4 @@ public class UserServiceImp implements UserUsesCases{
         userRepository.deleteById(id);
         return "User deleted successfully";
     }
-
-    @Override
-    public String removeAllUsers() {
-        if(userRepository.findAll().isEmpty())
-            return "No users registered.";
-
-        userRepository.deleteAll();
-        return "All users was removed successfully";
-    }
-
 }
