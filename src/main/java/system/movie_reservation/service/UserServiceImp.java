@@ -1,17 +1,11 @@
 package system.movie_reservation.service;
 
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import system.movie_reservation.exception.UserValidationHandler;
 import system.movie_reservation.model.user.*;
 import system.movie_reservation.repository.UserRepository;
-import system.movie_reservation.security.TokenService;
 import system.movie_reservation.service.usescases.UserUsesCases;
 
 import java.util.List;
@@ -21,15 +15,9 @@ import java.util.NoSuchElementException;
 public class UserServiceImp implements UserUsesCases{
 
     private final UserRepository userRepository;
-    private final AuthenticationManager authenticationManager;
-    private final TokenService tokenService;
 
-    public UserServiceImp(UserRepository userRepository,
-                          @Lazy AuthenticationManager authenticationManager,
-                          TokenService tokenService) {
+    public UserServiceImp(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.authenticationManager = authenticationManager;
-        this.tokenService = tokenService;
     }
 
     @Override
@@ -47,33 +35,15 @@ public class UserServiceImp implements UserUsesCases{
     public UserResponse registerUser(UserRequest user){
         User entity = new User(user);
         UserValidationHandler.checkEmptyFields(entity);
-        UserValidationHandler.checkUsernameAndEmailAlreadyExist(getUserByUsername(entity.getUsername()), userRepository.findUserByEmail(entity.getEmail()));
+        UserValidationHandler.checkUsernameAndEmailAlreadyExist(
+                getUserByUsername(entity.getUsername()),
+                userRepository.findUserByEmail(entity.getEmail()));
         String passwordEncoder = new BCryptPasswordEncoder().encode(user.password());
         entity.setPassword(passwordEncoder);
 
         userRepository.save(entity);
         return new UserResponse(entity);
     }
-
-    @Override
-    public String loginUserValidation(UserLogin user) {
-
-        loginPasswordException(user);
-        var tokenUserPassword = new UsernamePasswordAuthenticationToken(user.username(), user.password());
-        Authentication authenticate = authenticationManager.authenticate(tokenUserPassword);
-        String generate = tokenService.generate((User) authenticate.getPrincipal());
-        return generate;
-    }
-
-    private void loginPasswordException(UserLogin data){
-        if(data.username().isEmpty() || data.password().isEmpty())
-            throw new NullPointerException("All fields must be filled in.");
-
-        if (getUserByUsername(data.username()) == null)
-            throw new UsernameNotFoundException("login invalid.");
-
-    }
-
 
     @Override
     public List<UserResponse> getAllUsers() {

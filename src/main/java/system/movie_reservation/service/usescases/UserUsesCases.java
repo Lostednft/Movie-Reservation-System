@@ -7,7 +7,6 @@ import java.util.List;
 public interface UserUsesCases {
 
     UserResponse registerUser(UserRequest user);
-    String loginUserValidation(UserLogin user);
     User getUserById(String id);
     User getUserByUsername(String username);
     List<UserResponse> getAllUsers();
