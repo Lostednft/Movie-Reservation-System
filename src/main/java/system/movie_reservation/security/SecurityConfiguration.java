@@ -1,5 +1,6 @@
 package system.movie_reservation.security;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -45,11 +46,21 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, "/ticket").hasRole("ADMIN")
 
 
-                        .requestMatchers(HttpMethod.POST, "/auth/register", "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/user").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/user", "/user/").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/user", "/user/").hasRole("ADMIN")
                         .anyRequest().authenticated())
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.getWriter().write("Unauthorized");
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            response.getWriter().write("Forbidden");
+                        })
+                )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
