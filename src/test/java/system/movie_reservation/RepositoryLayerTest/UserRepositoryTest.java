@@ -12,6 +12,8 @@ import system.movie_reservation.model.user.User;
 import system.movie_reservation.repository.UserRepository;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -48,7 +50,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void givenUsername_whenFindUserByUsername_thenUserObject(){
+    public void givenUsername_whenFindUserByUsername_thenReturnUserObject(){
 
         //Given
         userRepository.save(user);
@@ -62,12 +64,48 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void given_when_then(){
+    public void givenId_whenFindUserById_thenReturnUserObject(){
+
+        //Given
+        userRepository.save(user);
+
+        //When
+        User userById = userRepository.findById(user.getId()).get();
+
+        //Then
+        Assertions.assertThat(userById).isEqualTo(user);
+        Assertions.assertThat(userById.getId()).isEqualTo(user.getId());
 
     }
 
     @Test
-    public void given_when_then(){
+    public void given_whenFindAll_thenReturnAllUsersObjects(){
+
+        //Given
+        userRepository.save(user);
+
+        //When
+        List<User> allUsers = userRepository.findAll();
+
+        //Then
+        Assertions.assertThat(allUsers).isNotEmpty();
+        Assertions.assertThat(allUsers).contains(user);
+        Assertions.assertThat(allUsers.getLast().getId()).isEqualTo(user.getId());
+    }
+
+
+    @Test
+    public void givenId_whenDeleteById_thenReturnUsersList(){
+
+        //Given
+        userRepository.save(user);
+
+        //When
+        userRepository.deleteById(user.getId());
+        List<User> allUsers = userRepository.findAll();
+
+        //Then
+        Assertions.assertThat(allUsers).doesNotContain(user);
 
     }
 }
