@@ -17,6 +17,12 @@ public class MovieController {
         this.movieUsesCases = movieUsesCases;
     }
 
+
+    @PostMapping("/create")
+    public ResponseEntity createMovie(@RequestBody MovieRequest movie){
+        return ResponseEntity.ok(movieUsesCases.createMovie(movie));
+    }
+
     @PutMapping("/update")
     public ResponseEntity updateMovie(@RequestBody MovieRequestUpdate movieRequestUpdate){
         return ResponseEntity.status(HttpStatus.OK).body(movieUsesCases.updateMovie(movieRequestUpdate));
