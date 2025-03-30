@@ -1,10 +1,7 @@
 package system.movie_reservation.model.ticket;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import system.movie_reservation.model.movie.EnumLoader.MovieTime;
 import system.movie_reservation.model.movie.Movie;
 import system.movie_reservation.model.seat.MovieTheater;
@@ -16,6 +13,7 @@ import java.util.List;
 @Table(name = "ticket_tb")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Ticket {
