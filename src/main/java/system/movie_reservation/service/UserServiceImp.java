@@ -32,20 +32,6 @@ public class UserServiceImp implements UserUsesCases{
     }
 
     @Override
-    public UserResponse registerUser(UserRequest user){
-        User entity = new User(user);
-        UserValidationHandler.checkEmptyFields(entity);
-        UserValidationHandler.checkUsernameAndEmailAlreadyExist(
-                getUserByUsername(entity.getUsername()),
-                userRepository.findUserByEmail(entity.getEmail()));
-        String passwordEncoder = new BCryptPasswordEncoder().encode(user.password());
-        entity.setPassword(passwordEncoder);
-
-        userRepository.save(entity);
-        return new UserResponse(entity);
-    }
-
-    @Override
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(UserResponse::new)
