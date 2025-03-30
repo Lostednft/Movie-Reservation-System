@@ -16,7 +16,7 @@ import system.movie_reservation.model.ticket.Ticket;
 public class SeatTicket {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String seatKey;
