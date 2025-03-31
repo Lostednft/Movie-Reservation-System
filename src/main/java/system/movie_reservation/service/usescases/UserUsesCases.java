@@ -9,6 +9,6 @@ public interface UserUsesCases {
     User getUserById(String id);
     User getUserByUsername(String username);
     List<UserResponse> getAllUsers();
-    UserResponse updateUserById(UserRequestUpdate userReqUpdate);
+    UserResponse updateUser(UserRequestUpdate userReqUpdate);
     String deleteUserById(String id);
 }
