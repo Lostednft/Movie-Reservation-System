@@ -40,7 +40,7 @@ public class UserServiceImp implements UserUsesCases{
 
     @Override
     @Transactional
-    public UserResponse updateUserById(UserRequestUpdate userReqUpdate) {
+    public UserResponse updateUser(UserRequestUpdate userReqUpdate) {
         User userById = getUserById(userReqUpdate.id());
         User userUpdated = new User(userReqUpdate);
         UserValidationHandler.checkEmptyFields(userUpdated);
