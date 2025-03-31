@@ -1,4 +1,4 @@
-package system.movie_reservation.ServiceLayerTest;
+package system.movie_reservation.service;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +18,6 @@ import system.movie_reservation.model.user.UserRequest;
 import system.movie_reservation.model.user.UserResponse;
 import system.movie_reservation.repository.UserRepository;
 import system.movie_reservation.security.TokenService;
-import system.movie_reservation.service.AuthService;
 
 import java.time.LocalDate;
 
@@ -49,10 +48,10 @@ public class AuthServiceLayerTest {
     public void setup(){
 
         user = User.builder()
-                .username("patata")
+                .username("vinicius")
                 .password("1234")
                 .role(UserRole.ADMIN)
-                .email("patata@gmail.com")
+                .email("vinicius@gmail.com")
                 .dateOfBirth(LocalDate.of(1998, 7, 15))
                 .build();
     }

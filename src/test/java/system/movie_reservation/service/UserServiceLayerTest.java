@@ -1,4 +1,4 @@
-package system.movie_reservation.ServiceLayerTest;
+package system.movie_reservation.service;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,6 @@ import system.movie_reservation.model.user.User;
 import system.movie_reservation.model.user.UserRequestUpdate;
 import system.movie_reservation.model.user.UserResponse;
 import system.movie_reservation.repository.UserRepository;
-import system.movie_reservation.service.UserServiceImp;
 
 import java.time.LocalDate;
 import java.util.List;

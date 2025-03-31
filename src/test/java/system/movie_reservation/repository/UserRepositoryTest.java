@@ -1,4 +1,4 @@
-package system.movie_reservation.RepositoryLayerTest;
+package system.movie_reservation.repository;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,11 +9,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import system.movie_reservation.model.user.Enum.UserRole;
 import system.movie_reservation.model.user.User;
-import system.movie_reservation.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

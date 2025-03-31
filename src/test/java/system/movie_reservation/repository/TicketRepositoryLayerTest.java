@@ -1,4 +1,4 @@
-package system.movie_reservation.RepositoryLayerTest;
+package system.movie_reservation.repository;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,12 +11,8 @@ import system.movie_reservation.model.movie.EnumLoader.MovieTime;
 import system.movie_reservation.model.movie.Movie;
 import system.movie_reservation.model.seat.MovieTheater;
 import system.movie_reservation.model.ticket.Ticket;
-import system.movie_reservation.model.ticket.TicketRequest;
 import system.movie_reservation.model.user.Enum.UserRole;
 import system.movie_reservation.model.user.User;
-import system.movie_reservation.repository.MovieRepository;
-import system.movie_reservation.repository.TicketRepository;
-import system.movie_reservation.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.util.List;
