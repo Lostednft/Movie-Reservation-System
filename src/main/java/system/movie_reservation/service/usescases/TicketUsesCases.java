@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface TicketUsesCases {
 
-    Ticket getTicketById(Long id);
+    Ticket getcketById(Long id);
     TicketResponse createTicket(TicketRequest ticketRequest);
-    List<TicketResponse> geAllTickets();
+    List<TicketResponse> getAllTickets();
     TicketResponse updateTicket(TicketRequestUpdate ticketReqUpdate);
     String deleteTicketById(Long id);
     String deleteAllTickets();

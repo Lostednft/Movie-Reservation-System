@@ -24,7 +24,7 @@ public class TicketController {
 
     @GetMapping
     public ResponseEntity getAllTickets(){
-        return ResponseEntity.ok(ticketUsesCases.geAllTickets());
+        return ResponseEntity.ok(ticketUsesCases.getAllTickets());
     }
 
     @GetMapping("/{id}")

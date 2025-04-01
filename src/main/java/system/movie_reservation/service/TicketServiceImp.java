@@ -64,7 +64,7 @@ public class TicketServiceImp implements TicketUsesCases {
     }
 
     @Override
-    public List<TicketResponse> geAllTickets() {
+    public List<TicketResponse> getAllTickets() {
 
         return ticketRepository.findAll().stream()
                 .map(TicketResponse::new)
