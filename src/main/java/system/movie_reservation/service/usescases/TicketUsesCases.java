@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TicketUsesCases {
 
-    Ticket getcketById(Long id);
+    Ticket getTicketById(Long id);
     TicketResponse createTicket(TicketRequest ticketRequest);
     List<TicketResponse> getAllTickets();
     TicketResponse updateTicket(TicketRequestUpdate ticketReqUpdate);
