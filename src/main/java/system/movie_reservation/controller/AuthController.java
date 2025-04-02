@@ -12,11 +12,11 @@ import system.movie_reservation.service.usescases.AuthUsesCases;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthenticationController {
+public class AuthController {
 
     private final AuthUsesCases authUsesCases;
 
-    public AuthenticationController(AuthUsesCases authUsesCases) {
+    public AuthController(AuthUsesCases authUsesCases) {
         this.authUsesCases = authUsesCases;
     }
 

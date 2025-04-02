@@ -15,7 +15,7 @@ import java.util.List;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class MovieRepositoryTest {
+public class MovieRepositoryLayerTest {
 
     @Autowired
     private MovieRepository movieRepository;
