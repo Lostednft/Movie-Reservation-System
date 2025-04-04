@@ -52,8 +52,8 @@ public class SeatTicketService {
     }
 
     private void verifySeatsAvailable(Ticket ticket){
-        List<SeatTicket> seatTicketList = ticket.getMovieTheater().getSeatTicket();
-        Map<String,SeatTicket> seatTicketMap = seatTicketList.stream()
+
+        Map<String,SeatTicket> seatTicketMap = ticket.getMovieTheater().getSeatTicket().stream()
                 .collect(Collectors.toMap(SeatTicket::getSeatKey,seatTicket -> seatTicket));
 
         StringBuilder seatsUnavailable = new StringBuilder();
