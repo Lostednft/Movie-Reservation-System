@@ -1,5 +1,6 @@
 package system.movie_reservation.model.movie;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import system.movie_reservation.model.movie.EnumLoader.Category;
@@ -31,6 +32,7 @@ public class Movie {
     private List<Ticket> tickets = new ArrayList<>();
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<MovieTheater> rooms;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
