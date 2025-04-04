@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import system.movie_reservation.model.ticket.TicketRequest;
 import system.movie_reservation.model.ticket.TicketRequestUpdate;
+import system.movie_reservation.model.ticket.TicketResponse;
 import system.movie_reservation.service.TicketServiceImp;
 import system.movie_reservation.service.usescases.TicketUsesCases;
 
@@ -29,7 +30,8 @@ public class TicketController {
 
     @GetMapping("/{id}")
     public ResponseEntity getTicketById(@PathVariable Long id){
-        return ResponseEntity.ok(ticketUsesCases.getTicketById(id));
+        TicketResponse ticketResponse = new TicketResponse(ticketUsesCases.getTicketById(id));
+        return ResponseEntity.ok(ticketResponse);
     }
 
     @PutMapping
