@@ -1,6 +1,7 @@
 package system.movie_reservation.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,15 +44,18 @@ public class AuthControllerLayerTest {
 
     @BeforeEach
     void setup(){
-        userRepository.deleteAll();
-
         user = User.builder()
-                .username("renata")
-                .email("renata@gmail.com")
+                .username("patata")
+                .email("patata@gmail.com")
                 .dateOfBirth(LocalDate.of(1998, 3, 11))
-                .password("senha12345")
+                .password("1234")
                 .role(UserRole.ADMIN)
                 .build();
+    }
+
+    @AfterEach
+    void deleteUser(){
+        userRepository.delete(user);
     }
 
     @Test
