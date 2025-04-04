@@ -6,6 +6,7 @@ import system.movie_reservation.model.seat.SeatTicket;
 import system.movie_reservation.model.ticket.Ticket;
 import system.movie_reservation.repository.MovieTheaterRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -30,7 +31,7 @@ public class SeatTicketService {
         verifySeatsAvailable(newTicket);
         MovieTheater movieTheater = removeSelectedSeatsTicket(oldTicket);
         newTicket.setMovieTheater(movieTheater);
-        MovieTheater movieTheaterInserted = insertSelectedSeatsTicket(newTicket);
+        MovieTheater movieTheaterInserted =insertSelectedSeatsTicket(newTicket);
         movieTheaterRepository.save(movieTheaterInserted);
     }
 
@@ -68,14 +69,18 @@ public class SeatTicketService {
 
     private MovieTheater insertSelectedSeatsTicket(Ticket ticket){
         MovieTheater movieTheater = ticket.getMovieTheater();
-        List<SeatTicket> seatTickets = movieTheater.getSeatTicket();
+
+        Map<String, SeatTicket> seatMap = movieTheater.getSeatTicket().stream()
+                .collect(Collectors.toMap(SeatTicket::getSeatKey, st -> st));
 
         for (String seat : ticket.getSeat()) {
-            seatTickets.stream().filter(n -> n.getSeatKey().equals(seat))
-                    .findFirst()
-                    .ifPresent(st -> st.setTicketValue(ticket));
+
+            SeatTicket seatTicketTemp = seatMap.get(seat);
+            seatTicketTemp.setTicketValue(ticket);
+            seatMap.put(seat, seatTicketTemp);
+
         }
-        movieTheater.setSeatTicket(seatTickets);
+        movieTheater.setSeatTicket(new ArrayList<>(seatMap.values()));
         return movieTheater;
     }
 
