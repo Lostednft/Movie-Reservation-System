@@ -31,9 +31,8 @@ public class SecurityConfiguration {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-
                         .requestMatchers(HttpMethod.POST, "/movies/create").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/movies/", "/movies").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/movies").permitAll()
                         .requestMatchers(HttpMethod.GET, "/movies/").hasRole("USER")
                         .requestMatchers(HttpMethod.PUT, "/movies/update").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/movies", "/movies/").hasRole("ADMIN")
@@ -42,7 +41,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/ticket").hasRole("USER")
                         .requestMatchers(HttpMethod.PUT, "/ticket").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/ticket", "/ticket/").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/ticket/").hasRole("USER")
+                        .requestMatchers(HttpMethod.DELETE, "/ticket/").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/ticket").hasRole("ADMIN")
 
 
