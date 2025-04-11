@@ -1,6 +1,5 @@
 package system.movie_reservation.model.user.Enum;
 
-
 public enum UserRole {
     USER(1, "user"),
     ADMIN(2, "admin");
