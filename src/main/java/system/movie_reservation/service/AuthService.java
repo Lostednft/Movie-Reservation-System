@@ -42,10 +42,14 @@ public class AuthService implements AuthUsesCases {
     @Override
     public UserResponse registerUser(UserRequest user){
         User entity = new User(user);
+
         UserValidationHandler.checkEmptyFields(entity);
+        UserValidationHandler.passwordValidate(entity.getPassword());
+        UserValidationHandler.emailFormatValidate(entity.getEmail());
         UserValidationHandler.checkUsernameAndEmailAlreadyExist(
                 userRepository.findUserByUsername(entity.getUsername()),
                 userRepository.findUserByEmail(entity.getEmail()));
+
         String passwordEncoder = new BCryptPasswordEncoder().encode(user.password());
         entity.setPassword(passwordEncoder);
 

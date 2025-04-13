@@ -2,6 +2,9 @@ package system.movie_reservation.exception;
 
 import system.movie_reservation.model.user.User;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class UserValidationHandler {
 
     public static void checkEmptyFields(User user){
@@ -22,7 +25,7 @@ public class UserValidationHandler {
             throw new IllegalArgumentException(response.replace(".", "\n"));
     }
 
-        public static void checkUsernameAndEmailAlreadyExist(User userUsername, User userEmail){
+    public static void checkUsernameAndEmailAlreadyExist(User userUsername, User userEmail){
 
         String response = "";
 
@@ -31,6 +34,39 @@ public class UserValidationHandler {
 
         if(userEmail != null)
             response += "That email already exist.";
+
+        if (!response.isEmpty())
+            throw new IllegalArgumentException(response.replace(".", "\n"));
+    }
+
+    public static void emailFormatValidate(String email){
+
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+
+        if(!matcher.find())
+            throw new IllegalArgumentException("This email is in an invalid format, default example: movie@gmail.com");
+
+    }
+
+    public static void passwordValidate(String password){
+        String response = "";
+
+        if(password.length() < 8)
+            response = "The password must have at least 8 characters.";
+
+        if(!Pattern.compile("[A-Z]").matcher(password).find())
+            response += "The password must contain at least one capital letter.";
+
+        if(!Pattern.compile("[a-z]").matcher(password).find())
+            response += "The password must contain at least one lowercase letter.";
+
+        if(!Pattern.compile("[0-9]").matcher(password).find())
+            response += "\"The password must have at least one number.";
+
+        if(!Pattern.compile("\\W").matcher(password).find())
+            response += "The password must have at least one special character.";
 
         if (!response.isEmpty())
             throw new IllegalArgumentException(response.replace(".", "\n"));
